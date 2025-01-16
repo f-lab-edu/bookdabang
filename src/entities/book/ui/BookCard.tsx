@@ -1,15 +1,14 @@
 import Image from 'next/image';
 import { Card, CardContent } from '@/shared/ui/card';
+import { Book } from '../model/book';
 
 interface BookCardProps {
-  coverImage: string;
-  title: string;
-  author: string;
-  publisher: string;
-  publishDate: string;
+  book: Book;
 }
 
-export default function BookCard({ coverImage, title, author, publisher, publishDate }: BookCardProps) {
+export default function BookCard({ book }: BookCardProps) {
+  const { coverImage, title, author, publisher, publishDate } = book;
+
   return (
     <Card className="overflow-hidden">
       <div className="flex flex-row sm:flex-col">
