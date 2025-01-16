@@ -1,10 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { Sparkles, TrendingUp } from 'lucide-react';
 import { Input } from '@/shared/ui/input';
-import { Card, CardContent } from '@/shared/ui/card';
+import { BookCard } from '@/entities/book';
 
 const books = [
   {
@@ -267,28 +266,10 @@ export default function HomePage() {
       </div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {filteredBooks.map((book) => (
-          <Card
+          <BookCard
             key={book.id}
-            className="overflow-hidden"
-          >
-            <div className="flex flex-row sm:flex-col">
-              <div className="w-1/3 sm:w-full">
-                <Image
-                  src={book.coverImage}
-                  alt={`${book.title} 표지`}
-                  width={200}
-                  height={300}
-                  className="h-32 w-full object-cover sm:h-64"
-                />
-              </div>
-              <CardContent className="w-2/3 p-4 sm:w-full">
-                <h3 className="mb-1 text-sm font-bold sm:mb-2 sm:text-lg">{book.title}</h3>
-                <p className="mb-1 text-xs text-gray-600 sm:text-sm">{book.author}</p>
-                <p className="mb-1 text-xs text-gray-600 sm:text-sm">{book.publisher}</p>
-                <p className="text-xs text-gray-600 sm:text-sm">{book.publishDate}</p>
-              </CardContent>
-            </div>
-          </Card>
+            {...book}
+          />
         ))}
       </div>
     </div>
