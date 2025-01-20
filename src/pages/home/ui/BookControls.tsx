@@ -4,16 +4,16 @@ import { useState } from 'react';
 import { BookFilter, FilterType } from '@/features/book-filter';
 import { BookSearch } from '@/features/book-search';
 
-export default function BookControls() {
+interface BookControlsProps {
+  initialSearchTerm?: string;
+}
+
+export default function BookControls({ initialSearchTerm }: BookControlsProps) {
   const [filter, setFilter] = useState<FilterType>('new');
-  const [searchTerm, setSearchTerm] = useState('');
 
   return (
     <div className="mb-8">
-      <BookSearch
-        searchTerm={searchTerm}
-        onSearch={setSearchTerm}
-      />
+      <BookSearch initialSearchTerm={initialSearchTerm} />
       <BookFilter
         currentFilter={filter}
         onFilterChange={setFilter}

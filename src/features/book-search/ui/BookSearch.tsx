@@ -1,18 +1,47 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 
 interface BookSearchProps {
-  searchTerm: string;
-  onSearch: (term: string) => void;
+  initialSearchTerm?: string;
 }
 
-export default function BookSearch({ searchTerm, onSearch }: BookSearchProps) {
+export default function BookSearch({ initialSearchTerm = '' }: BookSearchProps) {
+  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+
+  const router = useRouter();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push(`/?q=${searchTerm}`);
+  };
+
   return (
-    <Input
-      type="search"
-      placeholder="도서 검색..."
-      className="mb-4 w-full"
-      value={searchTerm}
-      onChange={(e) => onSearch(e.target.value)}
-    />
+    <form
+      className="mb-4 flex gap-2"
+      onSubmit={handleSubmit}
+    >
+      <Input
+        aria-label="도서 검색"
+        className="w-full"
+        type="search"
+        placeholder="제목, 저자로 도서 검색.."
+        value={searchTerm}
+        onChange={handleChange}
+      />
+      <Button
+        aria-label="검색하기"
+        type="submit"
+      >
+        검색
+      </Button>
+    </form>
   );
 }

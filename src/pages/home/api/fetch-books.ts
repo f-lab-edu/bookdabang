@@ -16,7 +16,17 @@ interface Response {
   item: BookDTO[];
 }
 
-export async function fetchBooks() {
+interface FetchBooksParams {
+  q?: string;
+}
+
+export async function fetchBooks({ q }: FetchBooksParams) {
+  const response = q ? fetchSearchBooks(q) : fetchNewBooks();
+  const data = await response.json<Response>();
+  return data.item.map(adaptBookDTO);
+}
+
+function fetchNewBooks() {
   const searchParams = new URLSearchParams({
     QueryType: 'ItemNewAll',
     MaxResults: '10',
@@ -26,6 +36,18 @@ export async function fetchBooks() {
     Version: '20131101',
   });
 
-  const data = await aladinApi.get('ItemList.aspx', { searchParams }).json<Response>();
-  return data.item.map(adaptBookDTO);
+  return aladinApi.get('ItemList.aspx', { searchParams });
+}
+
+function fetchSearchBooks(q: string) {
+  const searchParams = new URLSearchParams({
+    Query: q,
+    MaxResults: '10',
+    start: '1',
+    SearchTarget: 'Book',
+    output: 'js',
+    Version: '20131101',
+  });
+
+  return aladinApi.get('ItemSearch.aspx', { searchParams });
 }
