@@ -1,3 +1,4 @@
+import { aladinApi } from '@/shared/api/aladin-client';
 import { BookDTO } from './dto';
 import { adaptBookDTO } from './mapper';
 
@@ -16,9 +17,15 @@ interface Response {
 }
 
 export async function fetchBooks() {
-  const response = await fetch(
-    'https://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=ttbant12742104001&QueryType=ItemNewAll&MaxResults=10&start=1&SearchTarget=Book&output=js&Version=20131101',
-  );
-  const data = (await response.json()) as Response;
+  const searchParams = new URLSearchParams({
+    QueryType: 'ItemNewAll',
+    MaxResults: '10',
+    start: '1',
+    SearchTarget: 'Book',
+    output: 'js',
+    Version: '20131101',
+  });
+
+  const data = await aladinApi.get('ItemList.aspx', { searchParams }).json<Response>();
   return data.item.map(adaptBookDTO);
 }
