@@ -1,28 +1,13 @@
-'use client';
-
-import { useState } from 'react';
 import { BookList } from '@/entities/book';
-import { BookFilter, FilterType } from '@/features/book-filter';
-import { BookSearch } from '@/features/book-search';
-import { useBooks } from '../model/books';
+import { fetchBooks } from '../api/fetch-books';
+import BookControls from './BookControls';
 
-export default function HomePage() {
-  const [filter, setFilter] = useState<FilterType>('new');
-  const [searchTerm, setSearchTerm] = useState('');
-  const books = useBooks({ filter, searchTerm });
+export default async function HomePage() {
+  const books = await fetchBooks();
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <BookSearch
-          searchTerm={searchTerm}
-          onSearch={setSearchTerm}
-        />
-        <BookFilter
-          currentFilter={filter}
-          onFilterChange={setFilter}
-        />
-      </div>
+      <BookControls />
       <BookList books={books} />
     </div>
   );
