@@ -26,14 +26,19 @@ export async function fetchBooks({ q }: FetchBooksParams) {
   return data.item.map(adaptBookDTO);
 }
 
+const baseSearchParams = {
+  MaxResults: '10',
+  start: '1',
+  SearchTarget: 'Book',
+  Cover: 'Big',
+  output: 'js',
+  Version: '20131101',
+};
+
 function fetchNewBooks() {
   const searchParams = new URLSearchParams({
+    ...baseSearchParams,
     QueryType: 'ItemNewAll',
-    MaxResults: '10',
-    start: '1',
-    SearchTarget: 'Book',
-    output: 'js',
-    Version: '20131101',
   });
 
   return aladinApi.get('ItemList.aspx', { searchParams });
@@ -41,12 +46,8 @@ function fetchNewBooks() {
 
 function fetchSearchBooks(q: string) {
   const searchParams = new URLSearchParams({
+    ...baseSearchParams,
     Query: q,
-    MaxResults: '10',
-    start: '1',
-    SearchTarget: 'Book',
-    output: 'js',
-    Version: '20131101',
   });
 
   return aladinApi.get('ItemSearch.aspx', { searchParams });
