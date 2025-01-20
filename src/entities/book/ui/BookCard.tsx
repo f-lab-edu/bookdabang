@@ -18,7 +18,7 @@ export default function BookCard({ book }: BookCardProps) {
             alt={`${title} 표지`}
             width={200}
             height={300}
-            className="h-32 w-full object-cover sm:h-64"
+            className="size-full object-contain sm:h-64 sm:object-cover"
           />
         </div>
         <CardContent className="w-2/3 p-4 sm:w-full">
