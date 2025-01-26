@@ -1,6 +1,7 @@
 import { BookList } from '@/entities/book';
+import { BookSearch } from '@/features/book-search';
+import { BookTab } from '@/features/book-tab';
 import { fetchBooks } from '../api/fetch-books';
-import BookControls from './BookControls';
 
 type SearchParams = Promise<{ q?: string }>;
 
@@ -10,7 +11,10 @@ export default async function HomePage(props: { searchParams: SearchParams }) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <BookControls initialSearchTerm={q} />
+      <div className="mb-8">
+        <BookSearch />
+        <BookTab />
+      </div>
       <BookList books={books} />
     </div>
   );

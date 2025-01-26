@@ -1,16 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 
-interface BookSearchProps {
-  initialSearchTerm?: string;
-}
+export default function BookSearch() {
+  const searchParams = useSearchParams();
 
-export default function BookSearch({ initialSearchTerm = '' }: BookSearchProps) {
-  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+  const [searchTerm, setSearchTerm] = useState(searchParams?.get('q') ?? '');
 
   const router = useRouter();
 
