@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
+
+const DEBOUNCE_DELAY_MS = 500;
 
 export default function BookSearch() {
   const searchParams = useSearchParams();
@@ -12,20 +13,23 @@ export default function BookSearch() {
 
   const router = useRouter();
 
+  useEffect(
+    function debounceSearch() {
+      const debounceTimer = setTimeout(() => {
+        router.push(`/?q=${searchTerm}`);
+      }, DEBOUNCE_DELAY_MS);
+
+      return () => clearTimeout(debounceTimer);
+    },
+    [router, searchTerm],
+  );
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    router.push(`/?q=${searchTerm}`);
-  };
-
   return (
-    <form
-      className="mb-4 flex gap-2"
-      onSubmit={handleSubmit}
-    >
+    <div className="mb-4 flex gap-2">
       <Input
         aria-label="도서 검색"
         className="w-full"
@@ -34,12 +38,6 @@ export default function BookSearch() {
         value={searchTerm}
         onChange={handleChange}
       />
-      <Button
-        aria-label="검색하기"
-        type="submit"
-      >
-        검색
-      </Button>
-    </form>
+    </div>
   );
 }
