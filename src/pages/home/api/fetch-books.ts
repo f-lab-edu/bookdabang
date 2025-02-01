@@ -1,4 +1,4 @@
-import { aladinApi } from '@/shared/api/aladin-client';
+import { aladinApi } from '@/shared/api/aladin-api';
 import { BookDTO } from './dto';
 import { adaptBookDTO } from './mapper';
 
