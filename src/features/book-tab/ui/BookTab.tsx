@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Sparkles, TrendingUp } from 'lucide-react';
-import { TabType } from '../model/tab-type';
+import { TabType } from '@/entities/book';
 
 export default function BookTab() {
   const router = useRouter();

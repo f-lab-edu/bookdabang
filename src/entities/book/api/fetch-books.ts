@@ -1,4 +1,5 @@
 import { aladinApi } from '@/shared/api/aladin-api';
+import { TabType } from '../model/tab-type';
 import { BookDTO } from './dto';
 import { adaptBookDTO } from './mapper';
 
@@ -16,12 +17,13 @@ interface Response {
   item: BookDTO[];
 }
 
-interface FetchBooksParams {
+export interface FetchBooksParams {
   q?: string;
+  tab?: TabType;
 }
 
-export async function fetchBooks({ q }: FetchBooksParams) {
-  const response = q ? fetchSearchBooks(q) : fetchNewBooks();
+export async function fetchBooks({ q, tab }: FetchBooksParams) {
+  const response = q ? fetchBookSearch(q) : fetchBookList(tab);
   const data = await response.json<Response>();
   return data.item.map(adaptBookDTO);
 }
@@ -35,16 +37,16 @@ const baseSearchParams = {
   Version: '20131101',
 };
 
-function fetchNewBooks() {
+function fetchBookList(tab: TabType = 'new') {
   const searchParams = new URLSearchParams({
     ...baseSearchParams,
-    QueryType: 'ItemNewAll',
+    QueryType: tab === 'bestseller' ? 'Bestseller' : 'ItemNewAll',
   });
 
   return aladinApi.get('ItemList.aspx', { searchParams });
 }
 
-function fetchSearchBooks(q: string) {
+function fetchBookSearch(q: string) {
   const searchParams = new URLSearchParams({
     ...baseSearchParams,
     Query: q,

@@ -1,16 +1,19 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getQueryClient } from '@/shared/api/query-client';
-import { BookList, bookQueries } from '@/entities/book';
+import { BookList, bookQueries, TabType } from '@/entities/book';
 import { BookSearch } from '@/features/book-search';
 import { BookTab } from '@/features/book-tab';
 
-type SearchParams = Promise<{ q?: string }>;
+type SearchParams = Promise<{
+  q?: string;
+  tab?: TabType;
+}>;
 
 export default async function HomePage(props: { searchParams: SearchParams }) {
-  const { q } = await props.searchParams;
+  const { q, tab } = await props.searchParams;
 
   const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(bookQueries.list({ q }));
+  await queryClient.prefetchQuery(bookQueries.list({ q, tab }));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
