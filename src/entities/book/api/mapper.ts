@@ -1,4 +1,4 @@
-import { Book } from '@/entities/book';
+import { Book } from '../model/book';
 import { BookDTO } from './dto';
 
 export function adaptBookDTO(dto: BookDTO): Book {
