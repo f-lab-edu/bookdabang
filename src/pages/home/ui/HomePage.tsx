@@ -20,7 +20,7 @@ export default async function HomePage(props: { searchParams: SearchParams }) {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <BookSearch />
-          <BookTab />
+          {!q && <BookTab />}
         </div>
         <BookList />
       </div>
