@@ -9,7 +9,10 @@ const DEBOUNCE_DELAY_MS = 500;
 export default function BookSearch() {
   const searchParams = useSearchParams();
 
-  const [searchTerm, setSearchTerm] = useState(searchParams?.get('q') ?? '');
+  const [searchTerm, setSearchTerm] = useState('');
+  useEffect(() => {
+    setSearchTerm(searchParams?.get('q') ?? '');
+  }, [searchParams]);
 
   const router = useRouter();
 
