@@ -13,7 +13,7 @@ export default async function HomePage(props: { searchParams: SearchParams }) {
   const { q, tab } = await props.searchParams;
 
   const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(bookQueries.list({ q, tab }));
+  await queryClient.prefetchInfiniteQuery(bookQueries.infinite({ q, tab }));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
