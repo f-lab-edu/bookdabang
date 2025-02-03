@@ -1,8 +1,9 @@
 import ky from 'ky';
+import { isServer } from '@tanstack/react-query';
 import { ALADIN_API_KEY, ALADIN_API_URL } from '@/shared/config/aladin';
 
 export const aladinApi = ky.create({
-  prefixUrl: ALADIN_API_URL,
+  prefixUrl: isServer ? ALADIN_API_URL : '/aladin-api',
   hooks: {
     beforeRequest: [
       async (request) => {
