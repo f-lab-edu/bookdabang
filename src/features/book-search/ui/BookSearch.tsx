@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '@/shared/ui/input';
+import { debounce } from 'es-toolkit';
 
 const DEBOUNCE_DELAY_MS = 500;
 
@@ -16,19 +17,17 @@ export default function BookSearch() {
 
   const router = useRouter();
 
-  useEffect(
-    function debounceSearch() {
-      const debounceTimer = setTimeout(() => {
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((searchTerm: string) => {
         router.push(`/?q=${searchTerm}`);
-      }, DEBOUNCE_DELAY_MS);
-
-      return () => clearTimeout(debounceTimer);
-    },
-    [router, searchTerm],
+      }, DEBOUNCE_DELAY_MS),
+    [router],
   );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+    debouncedSearch(e.target.value);
   };
 
   return (
