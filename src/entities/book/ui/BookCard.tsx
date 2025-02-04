@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Image from 'next/image';
 import { Card, CardContent } from '@/shared/ui/card';
 import { Book } from '../model/book';
@@ -6,7 +7,7 @@ interface BookCardProps {
   book: Book;
 }
 
-export default function BookCard({ book }: BookCardProps) {
+function BookCard({ book }: BookCardProps) {
   const { coverImage, title, author, publisher, publishDate } = book;
 
   return (
@@ -31,3 +32,5 @@ export default function BookCard({ book }: BookCardProps) {
     </Card>
   );
 }
+
+export default memo(BookCard);
