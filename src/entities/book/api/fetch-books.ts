@@ -34,7 +34,7 @@ const baseSearchParams = {
   Cover: 'Big',
   output: 'js',
   Version: '20131101',
-};
+} as const;
 
 function fetchBookList(tab: TabType = 'new', pageParam: number, pageSize: number) {
   const searchParams = new URLSearchParams({
