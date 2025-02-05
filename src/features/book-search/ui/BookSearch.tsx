@@ -1,33 +1,37 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/shared/ui/button';
+import { useEffect, useMemo, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '@/shared/ui/input';
+import { debounce } from 'es-toolkit';
 
-interface BookSearchProps {
-  initialSearchTerm?: string;
-}
+const DEBOUNCE_DELAY_MS = 500;
 
-export default function BookSearch({ initialSearchTerm = '' }: BookSearchProps) {
-  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+export default function BookSearch() {
+  const searchParams = useSearchParams();
+
+  const [searchTerm, setSearchTerm] = useState('');
+  useEffect(() => {
+    setSearchTerm(searchParams?.get('q') ?? '');
+  }, [searchParams]);
 
   const router = useRouter();
 
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((searchTerm: string) => {
+        router.push(`/?q=${searchTerm}`);
+      }, DEBOUNCE_DELAY_MS),
+    [router],
+  );
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    router.push(`/?q=${searchTerm}`);
+    debouncedSearch(e.target.value);
   };
 
   return (
-    <form
-      className="mb-4 flex gap-2"
-      onSubmit={handleSubmit}
-    >
+    <div className="mb-4 flex gap-2">
       <Input
         aria-label="도서 검색"
         className="w-full"
@@ -36,12 +40,6 @@ export default function BookSearch({ initialSearchTerm = '' }: BookSearchProps) 
         value={searchTerm}
         onChange={handleChange}
       />
-      <Button
-        aria-label="검색하기"
-        type="submit"
-      >
-        검색
-      </Button>
-    </form>
+    </div>
   );
 }

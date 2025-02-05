@@ -14,6 +14,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  rewrites: async () => {
+    return [
+      {
+        source: '/aladin-api/:path*',
+        destination: 'https://www.aladin.co.kr/ttb/api/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
