@@ -1,7 +1,9 @@
 import { Book } from '../model/book';
+import { BooksResult } from '../model/books-result';
 import { BookDTO } from './dto';
+import { BooksResponse } from './response';
 
-export function adaptBookDTO(dto: BookDTO): Book {
+function adaptBookDTO(dto: BookDTO): Book {
   return {
     id: dto.itemId,
     title: dto.title,
@@ -9,5 +11,14 @@ export function adaptBookDTO(dto: BookDTO): Book {
     publisher: dto.publisher,
     publishDate: dto.pubDate,
     coverImage: dto.cover,
+  };
+}
+
+export function adaptBooksResponse(response: BooksResponse): BooksResult {
+  return {
+    totalItems: response.totalResults,
+    currentPage: response.startIndex,
+    pageSize: response.itemsPerPage,
+    books: response.item.map(adaptBookDTO),
   };
 }

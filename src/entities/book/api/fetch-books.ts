@@ -1,20 +1,8 @@
+import { isNotNil } from 'es-toolkit';
 import { aladinApi } from '@/shared/api/aladin-api';
 import { TabType } from '../model/tab-type';
-import { BookDTO } from './dto';
-
-interface Response {
-  version: string;
-  title: string;
-  link: string;
-  pubDate: string;
-  totalResults: number;
-  startIndex: number;
-  itemsPerPage: number;
-  query: string;
-  searchCategoryId: number;
-  searchCategoryName: string;
-  item: BookDTO[];
-}
+import { adaptBooksResponse } from './mapper';
+import { BooksResponse } from './response';
 
 export interface FetchBooksParams {
   q?: string;
@@ -24,9 +12,9 @@ export interface FetchBooksParams {
 }
 
 export async function fetchBooks({ q, tab, pageParam, pageSize }: FetchBooksParams) {
-  const response = q ? fetchBookSearch(q, pageParam, pageSize) : fetchBookList(tab, pageParam, pageSize);
-  const data = await response.json<Response>();
-  return data;
+  const response = isNotNil(q) ? fetchBookSearch(q, pageParam, pageSize) : fetchBookList(tab, pageParam, pageSize);
+  const data = await response.json<BooksResponse>();
+  return adaptBooksResponse(data);
 }
 
 const baseSearchParams = {

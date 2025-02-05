@@ -3,4 +3,3 @@ export { default as BookList } from './ui/BookList';
 export type { Book } from './model/book';
 export type { TabType } from './model/tab-type';
 export { bookQueries } from './api/book-queries';
-export { fetchBooks } from './api/fetch-books';

@@ -1,6 +1,5 @@
 import { infiniteQueryOptions } from '@tanstack/react-query';
 import { fetchBooks, FetchBooksParams } from './fetch-books';
-import { adaptBookDTO } from './mapper';
 
 export const bookQueries = {
   all: () => ['books'],
@@ -15,9 +14,9 @@ export const bookQueries = {
         }),
       initialPageParam: 1,
       getNextPageParam: (lastPage, _, lastPageParam) => {
-        if (lastPage.item.length < 10) return null;
+        if (lastPage.books.length < 10) return null;
         return lastPageParam + 1;
       },
-      select: (data) => data.pages.flatMap((page) => page.item.map(adaptBookDTO)),
+      select: (data) => data.pages.flatMap((page) => page.books),
     }),
 };
