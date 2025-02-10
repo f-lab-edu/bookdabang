@@ -1,8 +1,9 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getQueryClient } from '@/shared/api/query-client';
-import { BookList, bookQueries, TabType } from '@/entities/book';
+import { bookQueries, TabType } from '@/entities/book';
 import { BookSearch } from '@/features/book-search';
 import { BookTab } from '@/features/book-tab';
+import AsyncBookList from './AsyncBookList';
 
 type SearchParams = Promise<{
   q?: string;
@@ -22,7 +23,7 @@ export default async function HomePage(props: { searchParams: SearchParams }) {
           <BookSearch />
           {!q && <BookTab />}
         </div>
-        <BookList />
+        <AsyncBookList />
       </div>
     </HydrationBoundary>
   );
