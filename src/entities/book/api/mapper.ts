@@ -1,7 +1,7 @@
 import { Book } from '../model/book';
 import { BooksResult } from '../model/books-result';
 import { BookDTO } from './dto';
-import { BooksResponse } from './response';
+import { BookSuccessResponse } from './response';
 
 function adaptBookDTO(dto: BookDTO): Book {
   return {
@@ -14,7 +14,7 @@ function adaptBookDTO(dto: BookDTO): Book {
   };
 }
 
-export function adaptBooksResponse(response: BooksResponse): BooksResult {
+export function adaptBooksSuccessResponse(response: BookSuccessResponse): BooksResult {
   return {
     totalItems: response.totalResults,
     currentPage: response.startIndex,
