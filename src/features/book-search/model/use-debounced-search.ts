@@ -1,5 +1,5 @@
 import { useDebounce } from '@toss/react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const DEBOUNCE_DELAY_MS = 500;
 
