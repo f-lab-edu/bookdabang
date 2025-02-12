@@ -1,12 +1,12 @@
 import { isNotNil } from 'es-toolkit';
 import { aladinApi } from '@/shared/api/aladin-api';
-import { TabType } from '../model/tab-type';
+import { BookListTab } from '../model/book-list-tab';
 import { adaptBooksSuccessResponse } from './mapper';
 import { BooksResponse, BookSuccessResponse } from './response';
 
 export interface FetchBooksParams {
   q?: string;
-  tab?: TabType;
+  tab?: BookListTab;
   pageParam: number;
   pageSize: number;
 }
@@ -29,10 +29,10 @@ const baseSearchParams = {
   Version: '20131101',
 } as const;
 
-function fetchBookList(tab: TabType = 'new', pageParam: number, pageSize: number) {
+function fetchBookList(tab: BookListTab = BookListTab.NEW, pageParam: number, pageSize: number) {
   const searchParams = new URLSearchParams({
     ...baseSearchParams,
-    QueryType: tab === 'bestseller' ? 'Bestseller' : 'ItemNewAll',
+    QueryType: tab === BookListTab.BESTSELLER ? 'Bestseller' : 'ItemNewAll',
     MaxResults: pageSize.toString(),
     start: pageParam.toString(),
   });

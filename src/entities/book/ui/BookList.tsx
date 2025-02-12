@@ -4,13 +4,13 @@ import { useSearchParams } from 'next/navigation';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { InfiniteScroll } from '@/shared/ui/infinite-scroll';
 import { bookQueries } from '../api/book-queries';
-import { TabType } from '../model/tab-type';
+import { BookListTab } from '../model/book-list-tab';
 import BookCard from './BookCard';
 
 export default function BookList() {
   const searchParams = useSearchParams();
   const q = searchParams?.get('q') ?? undefined;
-  const tab = (searchParams?.get('tab') as TabType | null) ?? undefined;
+  const tab = (searchParams?.get('tab') as BookListTab | null) ?? undefined;
 
   const {
     data: books,
