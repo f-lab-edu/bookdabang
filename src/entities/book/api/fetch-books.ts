@@ -1,32 +1,25 @@
+import { isNotNil } from 'es-toolkit';
 import { aladinApi } from '@/shared/api/aladin-api';
-import { TabType } from '../model/tab-type';
-import { BookDTO } from './dto';
-
-interface Response {
-  version: string;
-  title: string;
-  link: string;
-  pubDate: string;
-  totalResults: number;
-  startIndex: number;
-  itemsPerPage: number;
-  query: string;
-  searchCategoryId: number;
-  searchCategoryName: string;
-  item: BookDTO[];
-}
+import { BookListTab } from '../model/book-list-tab';
+import { adaptBooksSuccessResponse } from './mapper';
+import { BooksResponse, BookSuccessResponse } from './response';
 
 export interface FetchBooksParams {
   q?: string;
-  tab?: TabType;
+  tab?: BookListTab;
   pageParam: number;
   pageSize: number;
 }
 
+function isBookSuccessResponse(response: BooksResponse): response is BookSuccessResponse {
+  return 'version' in response;
+}
+
 export async function fetchBooks({ q, tab, pageParam, pageSize }: FetchBooksParams) {
-  const response = q ? fetchBookSearch(q, pageParam, pageSize) : fetchBookList(tab, pageParam, pageSize);
-  const data = await response.json<Response>();
-  return data;
+  const response = isNotNil(q) ? fetchBookSearch(q, pageParam, pageSize) : fetchBookList(tab, pageParam, pageSize);
+  const data = await response.json<BooksResponse>();
+  if (isBookSuccessResponse(data)) return adaptBooksSuccessResponse(data);
+  throw new Error(data.errorMessage);
 }
 
 const baseSearchParams = {
@@ -36,10 +29,10 @@ const baseSearchParams = {
   Version: '20131101',
 } as const;
 
-function fetchBookList(tab: TabType = 'new', pageParam: number, pageSize: number) {
+function fetchBookList(tab: BookListTab = BookListTab.NEW, pageParam: number, pageSize: number) {
   const searchParams = new URLSearchParams({
     ...baseSearchParams,
-    QueryType: tab === 'bestseller' ? 'Bestseller' : 'ItemNewAll',
+    QueryType: tab === BookListTab.BESTSELLER ? 'Bestseller' : 'ItemNewAll',
     MaxResults: pageSize.toString(),
     start: pageParam.toString(),
   });
