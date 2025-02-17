@@ -1,8 +1,8 @@
 import { isNotNil } from 'es-toolkit';
 import { aladinApi } from '@/shared/api/aladin-api';
 import { BookListTab } from '../model/book-list-tab';
-import { adaptBooksSuccessResponse } from './mapper';
-import { BooksResponse, BookSuccessResponse } from './response';
+import { adaptBookListSuccessResponse } from './mapper';
+import { BookListResponse, BookListSuccessResponse } from './response';
 
 export interface FetchBooksParams {
   q?: string;
@@ -11,14 +11,14 @@ export interface FetchBooksParams {
   pageSize: number;
 }
 
-function isBookSuccessResponse(response: BooksResponse): response is BookSuccessResponse {
+function isBookListSuccessResponse(response: BookListResponse): response is BookListSuccessResponse {
   return 'version' in response;
 }
 
 export async function fetchBooks({ q, tab, pageParam, pageSize }: FetchBooksParams) {
   const response = isNotNil(q) ? fetchBookSearch(q, pageParam, pageSize) : fetchBookList(tab, pageParam, pageSize);
-  const data = await response.json<BooksResponse>();
-  if (isBookSuccessResponse(data)) return adaptBooksSuccessResponse(data);
+  const data = await response.json<BookListResponse>();
+  if (isBookListSuccessResponse(data)) return adaptBookListSuccessResponse(data);
   throw new Error(data.errorMessage);
 }
 

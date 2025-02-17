@@ -6,3 +6,7 @@ export interface Book {
   publishDate: string;
   coverImage: string;
 }
+
+export interface BookDetail extends Book {
+  pageCount: number;
+}

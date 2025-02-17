@@ -1,7 +1,7 @@
-import { Book } from '../model/book';
+import { Book, BookDetail } from '../model/book';
 import { BooksResult } from '../model/books-result';
 import { BookDTO } from './dto';
-import { BookSuccessResponse } from './response';
+import { BookDetailSuccessResponse, BookListSuccessResponse } from './response';
 
 function adaptBookDTO(dto: BookDTO): Book {
   return {
@@ -14,11 +14,20 @@ function adaptBookDTO(dto: BookDTO): Book {
   };
 }
 
-export function adaptBooksSuccessResponse(response: BookSuccessResponse): BooksResult {
+export function adaptBookListSuccessResponse(response: BookListSuccessResponse): BooksResult {
   return {
     totalItems: response.totalResults,
     currentPage: response.startIndex,
     pageSize: response.itemsPerPage,
     books: response.item.map(adaptBookDTO),
+  };
+}
+
+export function adaptBookDetailSuccessResponse(response: BookDetailSuccessResponse): BookDetail {
+  const [book] = response.item;
+
+  return {
+    ...adaptBookDTO(book),
+    pageCount: book.subInfo.itemPage,
   };
 }

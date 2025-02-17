@@ -21,3 +21,13 @@ export interface BookDTO {
   fixedPrice: boolean;
   customerReviewRank: number;
 }
+
+interface BookSubInfo {
+  subTitle: string;
+  originalTitle: string;
+  itemPage: number;
+}
+
+export interface BookDetailDTO extends BookDTO {
+  subInfo: BookSubInfo;
+}
