@@ -70,3 +70,18 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.half-filled {
+  position: relative;
+  overflow: hidden;
+}
+
+.half-filled::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-color: currentColor;
+}
