@@ -1,24 +1,18 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/card';
 import { Textarea } from '@/shared/ui/textarea';
-import { BookNoteFormValues } from '../../model/book-note-form-values';
 
-interface StepThreeProps {
-  formData: BookNoteFormValues;
-}
-
-export default function StepThree({ formData }: StepThreeProps) {
+export default function ReviewStep() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Your Review</CardTitle>
+        <CardTitle>독후감</CardTitle>
       </CardHeader>
       <CardContent>
         <Textarea
           id="content"
           name="content"
-          defaultValue={formData.content}
           className="min-h-[200px]"
-          placeholder="Write your review here... (Markdown supported)"
+          placeholder="독후감을 작성해 보세요!"
         />
       </CardContent>
     </Card>
