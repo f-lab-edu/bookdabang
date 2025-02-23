@@ -8,7 +8,7 @@ import { bookQueries } from '@/entities/book';
 import { BookNoteFormValues } from '../model/book-note-form-values';
 import { ReadingStatus } from '../model/reading-status';
 import ReadingInfoStep from './step/ReadingInfoStep';
-import StepTwo from './step/StepTwo';
+import RatingStep from './step/RatingStep';
 import StepThree from './step/StepThree';
 import StepFour from './step/StepFour';
 import StepFive from './step/StepFive';
@@ -36,7 +36,7 @@ export default function BookNoteForm() {
   return (
     <form className="mx-auto w-full max-w-4xl space-y-8 p-4 md:p-6">
       {currentStep === 0 && <ReadingInfoStep book={book} />}
-      {currentStep === 1 && <StepTwo formData={formData} />}
+      {currentStep === 1 && <RatingStep />}
       {currentStep === 2 && <StepThree formData={formData} />}
       {currentStep === 3 && <StepFour formData={formData} />}
       {currentStep === 4 && <StepFive formData={formData} />}

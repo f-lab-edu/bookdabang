@@ -2,42 +2,39 @@ import { ThumbsDown, ThumbsUp } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/card';
 import { Label } from '@/shared/ui/label';
-import { BookNoteFormValues } from '../../model/book-note-form-values';
 import StarRating from '../star-rating';
 
-interface StepTwoProps {
-  formData: BookNoteFormValues;
-}
+const recommended = true;
 
-export default function StepTwo({ formData }: StepTwoProps) {
+export default function RatingStep() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Your Rating</CardTitle>
+        <CardTitle>책 평가</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label>Do you recommend this book?</Label>
+          <Label>이 책을 추천할까요?</Label>
           <div className="flex space-x-2">
             <Button
               type="button"
-              variant={formData.recommended === true ? 'default' : 'outline'}
+              variant={recommended ? 'default' : 'outline'}
             >
               <ThumbsUp className="mr-2 size-5" />
-              Recommend
+              추천
             </Button>
             <Button
               type="button"
-              variant={formData.recommended === false ? 'default' : 'outline'}
+              variant={!recommended ? 'default' : 'outline'}
             >
               <ThumbsDown className="mr-2 size-5" />
-              Don&apos;t Recommend
+              추천하지 않음
             </Button>
           </div>
         </div>
         <div className="space-y-2">
-          <Label>Overall Rating</Label>
-          <StarRating rating={formData.overallRating} />
+          <Label>전체 평점</Label>
+          <StarRating rating={3} />
         </div>
       </CardContent>
     </Card>
