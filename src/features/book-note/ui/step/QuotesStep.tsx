@@ -3,43 +3,48 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/card';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Textarea } from '@/shared/ui/textarea';
-import { BookNoteFormValues } from '../../model/book-note-form-values';
 
-interface StepFourProps {
-  formData: BookNoteFormValues;
+interface Quote {
+  text: string;
+  page: string;
 }
 
-export default function StepFour({ formData }: StepFourProps) {
+const quotes: Quote[] = [
+  { text: '기억에 남는 문구 1', page: '100' },
+  { text: '기억에 남는 문구 2', page: '200' },
+];
+
+export default function QuotesStep() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Memorable Quotes</CardTitle>
+        <CardTitle>기억에 남는 문구</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {formData.quotes.map((quote: { text: string; page: string }, index: number) => (
+        {quotes.map((quote: Quote, index: number) => (
           <div
             key={index}
             className="space-y-2"
           >
             <div className="flex items-center justify-between">
-              <Label htmlFor={`quote-${index}`}>Quote {index + 1}</Label>
+              <Label htmlFor={`quote-${index}`}>문구 {index + 1}</Label>
               <Button
                 type="button"
                 variant="destructive"
                 size="sm"
               >
-                Delete
+                삭제
               </Button>
             </div>
             <Textarea
               id={`quote-${index}`}
               defaultValue={quote.text}
-              placeholder="Enter a memorable quote"
+              placeholder="기억에 남는 문구를 입력해 주세요"
             />
             <Input
               type="number"
               defaultValue={quote.page}
-              placeholder="Page number"
+              placeholder="페이지 번호"
               className="w-32"
             />
           </div>
@@ -48,7 +53,7 @@ export default function StepFour({ formData }: StepFourProps) {
           type="button"
           variant="outline"
         >
-          Add Another Quote
+          문구 추가
         </Button>
       </CardContent>
     </Card>

@@ -10,7 +10,7 @@ import { ReadingStatus } from '../model/reading-status';
 import ReadingInfoStep from './step/ReadingInfoStep';
 import RatingStep from './step/RatingStep';
 import ReviewStep from './step/ReviewStep';
-import StepFour from './step/StepFour';
+import QuotesStep from './step/QuotesStep';
 import StepFive from './step/StepFive';
 
 const steps = ['book-info', 'rating', 'review', 'quotes', 'visibility'];
@@ -38,7 +38,7 @@ export default function BookNoteForm() {
       {currentStep === 0 && <ReadingInfoStep book={book} />}
       {currentStep === 1 && <RatingStep />}
       {currentStep === 2 && <ReviewStep />}
-      {currentStep === 3 && <StepFour formData={formData} />}
+      {currentStep === 3 && <QuotesStep />}
       {currentStep === 4 && <StepFive formData={formData} />}
 
       <div className="flex justify-between pt-6">
