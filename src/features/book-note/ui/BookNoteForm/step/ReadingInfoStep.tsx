@@ -7,8 +7,8 @@ import { Label } from '@/shared/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { BookDetail } from '@/entities/book';
-import { ReadingStatus } from '../../model/reading-status';
-import BookNoteFormActions from '../book-note-form-actions';
+import { ReadingStatus } from '../../../model/reading-status';
+import BookNoteFormActions from '../BookNoteFormActions';
 
 const readingStatusLabels = {
   [ReadingStatus.WANT_TO_READ]: '읽고 싶어요',

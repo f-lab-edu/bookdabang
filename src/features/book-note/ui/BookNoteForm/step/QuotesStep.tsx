@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/card';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Textarea } from '@/shared/ui/textarea';
-import BookNoteFormActions from '../book-note-form-actions';
+import BookNoteFormActions from '../BookNoteFormActions';
 
 interface QuotesStepProps {
   onPrevious?: () => void;

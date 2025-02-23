@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/card';
 import { Textarea } from '@/shared/ui/textarea';
-import BookNoteFormActions from '../book-note-form-actions';
+import BookNoteFormActions from '../BookNoteFormActions';
 
 interface ReviewStepProps {
   onPrevious?: () => void;

@@ -2,8 +2,8 @@ import { ThumbsDown, ThumbsUp } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/card';
 import { Label } from '@/shared/ui/label';
-import BookNoteFormActions from '../book-note-form-actions';
-import StarRating from '../star-rating';
+import BookNoteFormActions from '../BookNoteFormActions';
+import StarRating from '../StarRating';
 
 interface RatingStepProps {
   onPrevious?: () => void;

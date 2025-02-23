@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { bookQueries } from '@/entities/book';
-import { BookNoteFormStep } from '../model/book-note-form-step';
+import { BookNoteFormStep } from '../../model/book-note-form-step';
 import ReadingInfoStep from './step/ReadingInfoStep';
 import RatingStep from './step/RatingStep';
 import ReviewStep from './step/ReviewStep';

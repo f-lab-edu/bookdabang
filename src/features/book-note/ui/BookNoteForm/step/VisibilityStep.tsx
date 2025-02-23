@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/card';
 import { Label } from '@/shared/ui/label';
 import { Switch } from '@/shared/ui/switch';
-import BookNoteFormActions from '../book-note-form-actions';
+import BookNoteFormActions from '../BookNoteFormActions';
 
 interface VisibilityStepProps {
   onPrevious?: () => void;
