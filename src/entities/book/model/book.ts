@@ -8,5 +8,6 @@ export interface Book {
 }
 
 export interface BookDetail extends Book {
+  description: string;
   pageCount: number;
 }

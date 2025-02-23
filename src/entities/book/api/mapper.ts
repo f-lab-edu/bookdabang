@@ -28,6 +28,7 @@ export function adaptBookDetailSuccessResponse(response: BookDetailSuccessRespon
 
   return {
     ...adaptBookDTO(book),
+    description: book.description,
     pageCount: book.subInfo.itemPage,
   };
 }
