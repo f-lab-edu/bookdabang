@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { CalendarIcon, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
@@ -12,6 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
 import { Switch } from '@/shared/ui/switch';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
+import { bookQueries } from '@/entities/book';
 import StarRating from './star-rating';
 
 const readingStatuses = [
@@ -46,31 +49,35 @@ const formData = {
 export default function BookNoteForm() {
   const [currentStep, setCurrentStep] = useState(0);
 
+  const { isbn } = useParams<{ isbn: string }>()!;
+
+  const { data: book } = useSuspenseQuery(bookQueries.detail(isbn));
+
   return (
     <form className="mx-auto w-full max-w-4xl space-y-8 p-4 md:p-6">
       {currentStep === 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>{formData.title}</CardTitle>
-            <CardDescription>by {formData.author}</CardDescription>
+            <CardTitle>{book.title}</CardTitle>
+            <CardDescription>by {book.author}</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-6">
             <div className="flex flex-col items-start space-y-4 md:flex-row md:items-center md:space-x-4 md:space-y-0">
               <div className="space-y-2">
                 <p>
-                  <strong>Publisher:</strong> {formData.publisher}
+                  <strong>Publisher:</strong> {book.publisher}
                 </p>
                 <p>
-                  <strong>ISBN:</strong> {formData.isbn}
+                  <strong>ISBN:</strong> {book.isbn}
                 </p>
                 <p>
-                  <strong>Pages:</strong> {formData.pageCount}
+                  <strong>Pages:</strong> {book.pageCount}
                 </p>
               </div>
             </div>
             <div>
               <strong>Description:</strong>
-              <p className="mt-2">{formData.description}</p>
+              <p className="mt-2">{book.description}</p>
             </div>
             <div className="space-y-2">
               <Label>Reading Status</Label>
