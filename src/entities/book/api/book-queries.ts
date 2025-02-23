@@ -1,5 +1,6 @@
-import { infiniteQueryOptions } from '@tanstack/react-query';
+import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 import { fetchBooks, FetchBooksParams } from './fetch-books';
+import { fetchBook } from './fetch-book';
 
 export const bookQueries = {
   all: () => ['books'],
@@ -18,5 +19,10 @@ export const bookQueries = {
         return lastPageParam + 1;
       },
       select: (data) => data.pages.flatMap((page) => page.books),
+    }),
+  detail: (isbn: string) =>
+    queryOptions({
+      queryKey: [...bookQueries.all(), isbn],
+      queryFn: () => fetchBook(isbn),
     }),
 };

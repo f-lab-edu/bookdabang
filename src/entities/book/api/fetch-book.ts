@@ -6,13 +6,13 @@ function isBookDetailSuccessResponse(response: BookDetailResponse): response is 
   return 'version' in response;
 }
 
-export async function fetchBook(itemId: string) {
+export async function fetchBook(isbn: string) {
   const searchParams = new URLSearchParams({
     itemIdType: 'ISBN13',
     cover: 'big',
     output: 'js',
     version: '20131101',
-    itemId: itemId,
+    itemId: isbn,
   });
 
   const response = aladinApi.get('ItemLookUp.aspx', { searchParams });
