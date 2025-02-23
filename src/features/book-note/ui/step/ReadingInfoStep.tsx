@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import Image from 'next/image';
 import { CalendarIcon } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
@@ -7,22 +7,21 @@ import { Label } from '@/shared/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { BookDetail } from '@/entities/book';
-import { BookNoteFormValues } from '../../model/book-note-form-values';
+import { ReadingStatus } from '../../model/reading-status';
 
-const readingStatuses = [
-  { value: 'want-to-read', label: 'Want to Read' },
-  { value: 'reading', label: 'Reading' },
-  { value: 'read', label: 'Read' },
-  { value: 'on-hold', label: 'On Hold' },
-  { value: 'dropped', label: 'Dropped' },
-];
+const readingStatusLabels = {
+  [ReadingStatus.WANT_TO_READ]: '읽고 싶어요',
+  [ReadingStatus.READING]: '읽고 있어요',
+  [ReadingStatus.READ]: '읽었어요',
+  [ReadingStatus.ON_HOLD]: '보류 중이에요',
+  [ReadingStatus.DROPPED]: '포기했어요',
+} as const;
 
-interface StepOneProps {
+interface ReadingInfoStepProps {
   book: BookDetail;
-  formData: BookNoteFormValues;
 }
 
-export default function StepOne({ book, formData }: StepOneProps) {
+export default function ReadingInfoStep({ book }: ReadingInfoStepProps) {
   return (
     <Card>
       <CardHeader>
@@ -32,76 +31,88 @@ export default function StepOne({ book, formData }: StepOneProps) {
       <CardContent className="grid gap-6">
         <div className="flex flex-col items-start space-y-4 md:flex-row md:items-center md:space-x-4 md:space-y-0">
           <div className="space-y-2">
+            <Image
+              src={book.coverImage}
+              alt={`${book.title} 표지`}
+              width={200}
+              height={300}
+              className="object-cover"
+            />
             <p>
-              <strong>Publisher:</strong> {book.publisher}
+              <strong>출판사:</strong> {book.publisher}
             </p>
             <p>
               <strong>ISBN:</strong> {book.isbn}
             </p>
             <p>
-              <strong>Pages:</strong> {book.pageCount}
+              <strong>페이지:</strong> {book.pageCount}쪽
             </p>
           </div>
         </div>
-        <div>
-          <strong>Description:</strong>
-          <p className="mt-2">{book.description}</p>
-        </div>
+        {!!book.description && (
+          <div>
+            <strong>설명:</strong>
+            <p className="mt-2">{book.description}</p>
+          </div>
+        )}
         <div className="space-y-2">
-          <Label>Reading Status</Label>
-          <RadioGroup defaultValue={formData.readingStatus}>
-            {readingStatuses.map((status) => (
+          <Label>읽기 상태</Label>
+          <RadioGroup>
+            {Object.values(ReadingStatus).map((status) => (
               <div
-                key={status.value}
+                key={status}
                 className="flex items-center space-x-2"
               >
                 <RadioGroupItem
-                  value={status.value}
-                  id={status.value}
+                  value={status}
+                  id={status}
                 />
-                <Label htmlFor={status.value}>{status.label}</Label>
+                <Label
+                  className="cursor-pointer"
+                  htmlFor={status}
+                >
+                  {readingStatusLabels[status]}
+                </Label>
               </div>
             ))}
           </RadioGroup>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="startDate">Start Date</Label>
+            <Label htmlFor="startDate">읽기 시작한 날짜</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
-                  variant={'outline'}
-                  className={`w-full justify-start text-left font-normal ${!formData.startDate && 'text-muted-foreground'}`}
+                  variant="outline"
+                  className="w-full justify-start text-left font-normal"
                 >
                   <CalendarIcon className="mr-2 size-4" />
-                  {formData.startDate ? format(formData.startDate, 'PPP') : <span>Pick a date</span>}
+                  <span>날짜 선택</span>
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
                 <Calendar
                   mode="single"
-                  selected={formData.startDate}
                   initialFocus
                 />
               </PopoverContent>
             </Popover>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="endDate">End Date</Label>
+            <Label htmlFor="endDate">읽은 마지막 날짜</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
-                  variant={'outline'}
-                  className={`w-full justify-start text-left font-normal ${!formData.endDate && 'text-muted-foreground'}`}
+                  variant="outline"
+                  className="w-full justify-start text-left font-normal"
                 >
                   <CalendarIcon className="mr-2 size-4" />
-                  {formData.endDate ? format(formData.endDate, 'PPP') : <span>Pick a date</span>}
+                  <span>날짜 선택</span>
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
                 <Calendar
                   mode="single"
-                  selected={formData.endDate}
                   initialFocus
                 />
               </PopoverContent>

@@ -1,5 +1,7 @@
+import { ReadingStatus } from './reading-status';
+
 export interface BookNoteFormValues {
-  readingStatus: string;
+  readingStatus: ReadingStatus;
   startDate: Date;
   endDate: Date;
   recommended: boolean | null;
