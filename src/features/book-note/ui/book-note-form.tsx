@@ -5,26 +5,13 @@ import { useParams } from 'next/navigation';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Button } from '@/shared/ui/button';
 import { bookQueries } from '@/entities/book';
-import { BookNoteFormValues } from '../model/book-note-form-values';
-import { ReadingStatus } from '../model/reading-status';
 import ReadingInfoStep from './step/ReadingInfoStep';
 import RatingStep from './step/RatingStep';
 import ReviewStep from './step/ReviewStep';
 import QuotesStep from './step/QuotesStep';
-import StepFive from './step/StepFive';
+import VisibilityStep from './step/VisibilityStep';
 
 const steps = ['book-info', 'rating', 'review', 'quotes', 'visibility'];
-
-const formData: BookNoteFormValues = {
-  readingStatus: ReadingStatus.WANT_TO_READ,
-  startDate: new Date('2023-01-01'),
-  endDate: new Date('2023-01-15'),
-  recommended: null,
-  overallRating: 4,
-  content: '',
-  quotes: [{ text: '', page: '' }],
-  visibility: false,
-};
 
 export default function BookNoteForm() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -39,7 +26,7 @@ export default function BookNoteForm() {
       {currentStep === 1 && <RatingStep />}
       {currentStep === 2 && <ReviewStep />}
       {currentStep === 3 && <QuotesStep />}
-      {currentStep === 4 && <StepFive formData={formData} />}
+      {currentStep === 4 && <VisibilityStep />}
 
       <div className="flex justify-between pt-6">
         <Button
