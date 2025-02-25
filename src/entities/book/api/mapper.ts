@@ -5,7 +5,7 @@ import { BookDetailSuccessResponse, BookListSuccessResponse } from './response';
 
 function adaptBookDTO(dto: BookDTO): Book {
   return {
-    id: dto.itemId,
+    isbn: dto.isbn13,
     title: dto.title,
     author: dto.author,
     publisher: dto.publisher,
@@ -28,6 +28,7 @@ export function adaptBookDetailSuccessResponse(response: BookDetailSuccessRespon
 
   return {
     ...adaptBookDTO(book),
+    description: book.description,
     pageCount: book.subInfo.itemPage,
   };
 }
