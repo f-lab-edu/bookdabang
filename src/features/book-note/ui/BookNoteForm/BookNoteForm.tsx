@@ -2,9 +2,8 @@
 
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { match } from 'ts-pattern';
-import { bookQueries } from '@/entities/book';
+import { useBookDetail } from '@/entities/book';
 import { BookNoteFormStep } from '../../model/book-note-form-step';
 import ReadingInfoStep from './step/ReadingInfoStep';
 import RatingStep from './step/RatingStep';
@@ -17,7 +16,7 @@ export default function BookNoteForm() {
 
   const { isbn } = useParams<{ isbn: string }>()!;
 
-  const { data: book } = useSuspenseQuery(bookQueries.detail(isbn));
+  const book = useBookDetail(isbn);
 
   return (
     <div className="mx-auto w-full max-w-4xl space-y-8 p-4 md:p-6">
