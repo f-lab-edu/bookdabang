@@ -1,8 +1,8 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { match } from 'ts-pattern';
 import { useFormFunnel } from '@/shared/lib/form';
+import { RenderCase } from '@/shared/ui/render-case';
 import { useBookDetail } from '@/entities/book';
 import BookNoteFormActions from './BookNoteFormActions';
 import ReadingInfoStep from './step/ReadingInfoStep';
@@ -24,13 +24,16 @@ export default function BookNoteForm() {
 
   return (
     <form className="mx-auto w-full max-w-4xl space-y-8 p-4 md:p-6">
-      {match(currentStep)
-        .with(1, () => <ReadingInfoStep book={book} />)
-        .with(2, () => <RatingStep />)
-        .with(3, () => <ReviewStep />)
-        .with(4, () => <QuotesStep />)
-        .with(5, () => <VisibilityStep />)
-        .otherwise(() => null)}
+      <RenderCase
+        value={currentStep}
+        cases={{
+          1: <ReadingInfoStep book={book} />,
+          2: <RatingStep />,
+          3: <ReviewStep />,
+          4: <QuotesStep />,
+          5: <VisibilityStep />,
+        }}
+      />
       <BookNoteFormActions
         previousDisabled={isFirstStep}
         nextDisabled={isLastStep}
