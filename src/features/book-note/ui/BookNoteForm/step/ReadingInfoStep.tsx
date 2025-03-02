@@ -1,6 +1,9 @@
+import { format } from 'date-fns';
+import { ko } from 'date-fns/locale';
 import Image from 'next/image';
 import { CalendarIcon } from 'lucide-react';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
+import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
@@ -8,6 +11,7 @@ import { Label } from '@/shared/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { BookDetail } from '@/entities/book';
+import { BookNoteFormValues } from '../../../model/book-note-form-values';
 import { ReadingStatus } from '../../../model/reading-status';
 
 const readingStatusLabels = {
@@ -23,7 +27,7 @@ interface ReadingInfoStepProps {
 }
 
 export default function ReadingInfoStep({ book }: ReadingInfoStepProps) {
-  const { register } = useFormContext();
+  const { control } = useFormContext<BookNoteFormValues>();
 
   return (
     <Card>
@@ -60,62 +64,100 @@ export default function ReadingInfoStep({ book }: ReadingInfoStepProps) {
         )}
         <div className="space-y-2">
           <Label>읽기 상태</Label>
-          <Select {...register('readingStatus', { required: true })}>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="읽기 상태" />
-            </SelectTrigger>
-            <SelectContent>
-              {Object.values(ReadingStatus).map((status) => (
-                <SelectItem
-                  key={status}
-                  value={status}
-                >
-                  {readingStatusLabels[status]}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Controller
+            control={control}
+            name="readingStatus"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}
+              >
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="읽기 상태" />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.values(ReadingStatus).map((status) => (
+                    <SelectItem
+                      key={status}
+                      value={status}
+                    >
+                      {readingStatusLabels[status]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          ></Controller>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="startDate">읽기 시작한 날짜</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="w-full justify-start text-left font-normal"
-                >
-                  <CalendarIcon className="mr-2 size-4" />
-                  <span>날짜 선택</span>
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+            <Controller
+              control={control}
+              name="startDate"
+              rules={{ required: true }}
+              render={({ field }) => (
+                <>
+                  <Label htmlFor="startDate">읽기 시작한 날짜</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          'w-full justify-start text-left font-normal',
+                          !field.value && 'text-muted-foreground',
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 size-4" />
+                        {field.value ? format(field.value, 'PPP', { locale: ko }) : <span>날짜 선택</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        initialFocus
+                        selected={field.value}
+                        onSelect={field.onChange}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </>
+              )}
+            ></Controller>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="endDate">읽은 마지막 날짜</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="w-full justify-start text-left font-normal"
-                >
-                  <CalendarIcon className="mr-2 size-4" />
-                  <span>날짜 선택</span>
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+            <Controller
+              control={control}
+              name="endDate"
+              rules={{ required: true }}
+              render={({ field }) => (
+                <>
+                  <Label htmlFor="endDate">읽은 마지막 날짜</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          'w-full justify-start text-left font-normal',
+                          !field.value && 'text-muted-foreground',
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 size-4" />
+                        {field.value ? format(field.value, 'PPP', { locale: ko }) : <span>날짜 선택</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        initialFocus
+                        selected={field.value}
+                        onSelect={field.onChange}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </>
+              )}
+            ></Controller>
           </div>
         </div>
       </CardContent>
