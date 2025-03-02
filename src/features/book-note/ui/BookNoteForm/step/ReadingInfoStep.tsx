@@ -1,11 +1,12 @@
 import Image from 'next/image';
 import { CalendarIcon } from 'lucide-react';
+import { useFormContext } from 'react-hook-form';
 import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
 import { Label } from '@/shared/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { BookDetail } from '@/entities/book';
 import { ReadingStatus } from '../../../model/reading-status';
 
@@ -22,6 +23,8 @@ interface ReadingInfoStepProps {
 }
 
 export default function ReadingInfoStep({ book }: ReadingInfoStepProps) {
+  const { register } = useFormContext();
+
   return (
     <Card>
       <CardHeader>
@@ -57,25 +60,21 @@ export default function ReadingInfoStep({ book }: ReadingInfoStepProps) {
         )}
         <div className="space-y-2">
           <Label>읽기 상태</Label>
-          <RadioGroup>
-            {Object.values(ReadingStatus).map((status) => (
-              <div
-                key={status}
-                className="flex items-center space-x-2"
-              >
-                <RadioGroupItem
+          <Select {...register('readingStatus', { required: true })}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="읽기 상태" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.values(ReadingStatus).map((status) => (
+                <SelectItem
+                  key={status}
                   value={status}
-                  id={status}
-                />
-                <Label
-                  className="cursor-pointer"
-                  htmlFor={status}
                 >
                   {readingStatusLabels[status]}
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="space-y-2">
