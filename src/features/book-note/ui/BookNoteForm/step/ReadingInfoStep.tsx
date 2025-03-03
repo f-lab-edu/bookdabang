@@ -27,7 +27,10 @@ interface ReadingInfoStepProps {
 }
 
 export default function ReadingInfoStep({ book }: ReadingInfoStepProps) {
-  const { control } = useFormContext<BookNoteFormValues>();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<BookNoteFormValues>();
 
   return (
     <Card>
@@ -89,6 +92,7 @@ export default function ReadingInfoStep({ book }: ReadingInfoStepProps) {
               </Select>
             )}
           ></Controller>
+          {errors.readingStatus && <p className="text-red-500">읽기 상태는 필수 값입니다.</p>}
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="space-y-2">
@@ -124,6 +128,7 @@ export default function ReadingInfoStep({ book }: ReadingInfoStepProps) {
                 </>
               )}
             ></Controller>
+            {errors.startDate && <p className="text-red-500">읽기 시작한 날짜는 필수 값입니다.</p>}
           </div>
           <div className="space-y-2">
             <Controller
@@ -158,6 +163,7 @@ export default function ReadingInfoStep({ book }: ReadingInfoStepProps) {
                 </>
               )}
             ></Controller>
+            {errors.endDate && <p className="text-red-500">읽은 마지막 날짜는 필수 값입니다.</p>}
           </div>
         </div>
       </CardContent>
