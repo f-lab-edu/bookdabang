@@ -38,9 +38,16 @@ export default function BookNoteForm() {
     if (isValid) goToNextStep();
   };
 
+  const handleSubmit = form.handleSubmit((data) => {
+    console.log(data);
+  });
+
   return (
     <Form {...form}>
-      <form className="mx-auto w-full max-w-4xl space-y-8 p-4 md:p-6">
+      <form
+        className="mx-auto w-full max-w-4xl space-y-8 p-4 md:p-6"
+        onSubmit={handleSubmit}
+      >
         <RenderCase
           value={currentStep}
           cases={{
@@ -54,6 +61,7 @@ export default function BookNoteForm() {
         <BookNoteFormActions
           previousDisabled={isFirstStep}
           nextDisabled={isLastStep}
+          showSubmit={isLastStep}
           onPrevious={goToPreviousStep}
           onNext={handleNext}
         />

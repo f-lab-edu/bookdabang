@@ -3,8 +3,10 @@ import { Button } from '@/shared/ui/button';
 interface BookNoteFormActionsProps {
   previousLabel?: string;
   nextLabel?: string;
+  submitLabel?: string;
   previousDisabled?: boolean;
   nextDisabled?: boolean;
+  showSubmit?: boolean;
   onPrevious?: () => void;
   onNext?: () => void;
 }
@@ -12,8 +14,10 @@ interface BookNoteFormActionsProps {
 export default function BookNoteFormActions({
   previousLabel = '이전',
   nextLabel = '다음',
+  submitLabel = '저장',
   previousDisabled,
   nextDisabled,
+  showSubmit,
   onPrevious,
   onNext,
 }: BookNoteFormActionsProps) {
@@ -27,13 +31,17 @@ export default function BookNoteFormActions({
       >
         {previousLabel}
       </Button>
-      <Button
-        type="button"
-        disabled={nextDisabled}
-        onClick={onNext}
-      >
-        {nextLabel}
-      </Button>
+      {showSubmit ? (
+        <Button type="submit">{submitLabel}</Button>
+      ) : (
+        <Button
+          type="button"
+          disabled={nextDisabled}
+          onClick={onNext}
+        >
+          {nextLabel}
+        </Button>
+      )}
     </div>
   );
 }
