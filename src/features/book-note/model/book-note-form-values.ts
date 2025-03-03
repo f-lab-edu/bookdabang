@@ -1,5 +1,10 @@
 import { ReadingStatus } from './reading-status';
 
+export interface Quote {
+  text: string;
+  page: string;
+}
+
 export interface BookNoteFormValues {
   readingStatus: ReadingStatus;
   startDate: Date;
@@ -7,6 +12,6 @@ export interface BookNoteFormValues {
   recommended: boolean | null;
   overallRating: number;
   content: string;
-  quotes: { text: string; page: string }[];
+  quotes: Quote[];
   visibility: boolean;
 }
