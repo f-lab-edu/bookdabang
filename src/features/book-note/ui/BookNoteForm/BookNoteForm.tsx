@@ -1,53 +1,63 @@
 'use client';
 
-import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { match } from 'ts-pattern';
-import { bookQueries } from '@/entities/book';
-import { BookNoteFormStep } from '../../model/book-note-form-step';
+import { FormProvider } from 'react-hook-form';
+import { useFormFunnel } from '@/shared/lib/form';
+import { RenderCase } from '@/shared/ui/render-case';
+import { useBookDetail } from '@/entities/book';
+import { BookNoteFormValues } from '../../model/book-note-form-values';
+import BookNoteFormActions from './BookNoteFormActions';
 import ReadingInfoStep from './step/ReadingInfoStep';
 import RatingStep from './step/RatingStep';
 import ReviewStep from './step/ReviewStep';
 import QuotesStep from './step/QuotesStep';
 import VisibilityStep from './step/VisibilityStep';
 
-export default function BookNoteForm() {
-  const [step, setStep] = useState<BookNoteFormStep>(BookNoteFormStep.READING_INFO);
+const triggerFields: Record<number, (keyof BookNoteFormValues)[]> = {
+  1: ['readingStatus', 'startDate', 'endDate'],
+  2: ['recommended', 'overallRating'],
+  3: ['content'],
+  4: ['quotes'],
+  5: ['visibility'],
+};
 
+export default function BookNoteForm() {
   const { isbn } = useParams<{ isbn: string }>()!;
 
-  const { data: book } = useSuspenseQuery(bookQueries.detail(isbn));
+  const book = useBookDetail(isbn);
+
+  const {
+    form,
+    navigation: { currentStep, isFirstStep, isLastStep, goToPreviousStep, goToNextStep },
+  } = useFormFunnel<BookNoteFormValues>({
+    totalSteps: 5,
+  });
+
+  const handleNext = async () => {
+    const isValid = await form.trigger(triggerFields[currentStep]);
+    if (isValid) goToNextStep();
+  };
 
   return (
-    <div className="mx-auto w-full max-w-4xl space-y-8 p-4 md:p-6">
-      {match(step)
-        .with(BookNoteFormStep.READING_INFO, () => (
-          <ReadingInfoStep
-            book={book}
-            onNext={() => setStep(BookNoteFormStep.RATING)}
-          />
-        ))
-        .with(BookNoteFormStep.RATING, () => (
-          <RatingStep
-            onPrevious={() => setStep(BookNoteFormStep.READING_INFO)}
-            onNext={() => setStep(BookNoteFormStep.REVIEW)}
-          />
-        ))
-        .with(BookNoteFormStep.REVIEW, () => (
-          <ReviewStep
-            onPrevious={() => setStep(BookNoteFormStep.RATING)}
-            onNext={() => setStep(BookNoteFormStep.QUOTES)}
-          />
-        ))
-        .with(BookNoteFormStep.QUOTES, () => (
-          <QuotesStep
-            onPrevious={() => setStep(BookNoteFormStep.REVIEW)}
-            onNext={() => setStep(BookNoteFormStep.VISIBILITY)}
-          />
-        ))
-        .with(BookNoteFormStep.VISIBILITY, () => <VisibilityStep onPrevious={() => setStep(BookNoteFormStep.QUOTES)} />)
-        .exhaustive()}
-    </div>
+    <FormProvider {...form}>
+      <form className="mx-auto w-full max-w-4xl space-y-8 p-4 md:p-6">
+        <RenderCase
+          value={currentStep}
+          cases={{
+            1: <ReadingInfoStep book={book} />,
+            2: <RatingStep />,
+            3: <ReviewStep />,
+            4: <QuotesStep />,
+            5: <VisibilityStep />,
+          }}
+        />
+        <BookNoteFormActions
+          previousDisabled={isFirstStep}
+          nextDisabled={isLastStep}
+          onPrevious={goToPreviousStep}
+          onNext={handleNext}
+        />
+      </form>
+    </FormProvider>
   );
 }
