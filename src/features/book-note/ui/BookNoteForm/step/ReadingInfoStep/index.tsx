@@ -1,6 +1,5 @@
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import Image from 'next/image';
 import { CalendarIcon } from 'lucide-react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { cn } from '@/shared/lib/utils';
@@ -11,8 +10,9 @@ import { Label } from '@/shared/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { BookDetail } from '@/entities/book';
-import { BookNoteFormValues } from '../../../model/book-note-form-values';
-import { ReadingStatus } from '../../../model/reading-status';
+import { BookNoteFormValues } from '../../../../model/book-note-form-values';
+import { ReadingStatus } from '../../../../model/reading-status';
+import BookInfo from './BookInfo';
 
 const readingStatusLabels = {
   [ReadingStatus.WANT_TO_READ]: '읽고 싶어요',
@@ -39,32 +39,7 @@ export default function ReadingInfoStep({ book }: ReadingInfoStepProps) {
         <CardDescription>by {book.author}</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-6">
-        <div className="flex flex-col items-start space-y-4 md:flex-row md:items-center md:space-x-4 md:space-y-0">
-          <div className="space-y-2">
-            <Image
-              src={book.coverImage}
-              alt={`${book.title} 표지`}
-              width={200}
-              height={300}
-              className="object-cover"
-            />
-            <p>
-              <strong>출판사:</strong> {book.publisher}
-            </p>
-            <p>
-              <strong>ISBN:</strong> {book.isbn}
-            </p>
-            <p>
-              <strong>페이지:</strong> {book.pageCount}쪽
-            </p>
-          </div>
-        </div>
-        {!!book.description && (
-          <div>
-            <strong>설명:</strong>
-            <p className="mt-2">{book.description}</p>
-          </div>
-        )}
+        <BookInfo book={book} />
         <div className="space-y-2">
           <Label>읽기 상태</Label>
           <Controller
