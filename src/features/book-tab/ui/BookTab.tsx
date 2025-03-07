@@ -3,11 +3,11 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Sparkles, TrendingUp } from 'lucide-react';
-import { TabType } from '@/entities/book';
+import { BookListTab } from '@/entities/book';
 
 export default function BookTab() {
   const searchParams = useSearchParams();
-  const currentTab = (searchParams?.get('tab') ?? 'new') as TabType;
+  const currentTab = (searchParams?.get('tab') ?? 'new') as BookListTab;
 
   return (
     <div className="flex space-x-8 border-b">
