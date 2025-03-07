@@ -8,19 +8,10 @@ import { Calendar } from '@/shared/ui/calendar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
 import { Label } from '@/shared/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { BookDetail } from '@/entities/book';
 import { BookNoteFormValues } from '../../../../model/book-note-form-values';
-import { ReadingStatus } from '../../../../model/reading-status';
 import BookInfo from './BookInfo';
-
-const readingStatusLabels = {
-  [ReadingStatus.WANT_TO_READ]: '읽고 싶어요',
-  [ReadingStatus.READING]: '읽고 있어요',
-  [ReadingStatus.READ]: '읽었어요',
-  [ReadingStatus.ON_HOLD]: '보류 중이에요',
-  [ReadingStatus.DROPPED]: '포기했어요',
-} as const;
+import ReadingInfoSelect from './ReadingInfoSelect';
 
 interface ReadingInfoStepProps {
   book: BookDetail;
@@ -40,35 +31,7 @@ export default function ReadingInfoStep({ book }: ReadingInfoStepProps) {
       </CardHeader>
       <CardContent className="grid gap-6">
         <BookInfo book={book} />
-        <div className="space-y-2">
-          <Label>읽기 상태</Label>
-          <Controller
-            control={control}
-            name="readingStatus"
-            rules={{ required: true }}
-            render={({ field }) => (
-              <Select
-                value={field.value}
-                onValueChange={field.onChange}
-              >
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="읽기 상태" />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.values(ReadingStatus).map((status) => (
-                    <SelectItem
-                      key={status}
-                      value={status}
-                    >
-                      {readingStatusLabels[status]}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          ></Controller>
-          {errors.readingStatus && <p className="text-red-500">읽기 상태는 필수 값입니다.</p>}
-        </div>
+        <ReadingInfoSelect />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="space-y-2">
             <Controller
