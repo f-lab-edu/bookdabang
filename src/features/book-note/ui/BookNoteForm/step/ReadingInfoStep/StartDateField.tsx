@@ -3,7 +3,7 @@ import { DatePicker } from '@/shared/ui/date-picker';
 import { Label } from '@/shared/ui/label';
 import { BookNoteFormValues } from '../../../../model/book-note-form-values';
 
-export default function EndDatePicker() {
+export default function StartDateField() {
   const {
     control,
     formState: { errors },
@@ -11,10 +11,10 @@ export default function EndDatePicker() {
 
   return (
     <div className="space-y-2">
-      <Label htmlFor="endDate">읽은 마지막 날짜</Label>
+      <Label htmlFor="startDate">읽기 시작한 날짜</Label>
       <Controller
         control={control}
-        name="endDate"
+        name="startDate"
         rules={{ required: true }}
         render={({ field }) => (
           <DatePicker
@@ -22,8 +22,8 @@ export default function EndDatePicker() {
             onChange={field.onChange}
           />
         )}
-      ></Controller>
-      {errors.endDate && <p className="text-red-500">읽은 마지막 날짜는 필수 값입니다.</p>}
+      />
+      {errors.startDate && <p className="text-red-500">읽기 시작한 날짜는 필수 값입니다.</p>}
     </div>
   );
 }

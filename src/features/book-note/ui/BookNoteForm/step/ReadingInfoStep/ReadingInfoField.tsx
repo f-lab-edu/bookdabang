@@ -12,7 +12,7 @@ const readingStatusLabels = {
   [ReadingStatus.DROPPED]: '포기했어요',
 } as const;
 
-export default function ReadingInfoSelect() {
+export default function ReadingInfoField() {
   const {
     control,
     formState: { errors },
