@@ -1,7 +1,7 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { Label } from '@/shared/ui/label';
+import { StarRating } from '@/shared/ui/star-rating';
 import { BookNoteFormValues } from '../../../../model/book-note-form-values';
-import StarRating from '../../StarRating';
 
 export default function RatingField() {
   const {
