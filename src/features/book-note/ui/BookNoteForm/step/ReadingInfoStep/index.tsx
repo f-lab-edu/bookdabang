@@ -6,6 +6,7 @@ import { BookDetail } from '@/entities/book';
 import { BookNoteFormValues } from '../../../../model/book-note-form-values';
 import BookInfo from './BookInfo';
 import ReadingInfoSelect from './ReadingInfoSelect';
+import StartDatePicker from './StartDatePicker';
 
 interface ReadingInfoStepProps {
   book: BookDetail;
@@ -27,23 +28,7 @@ export default function ReadingInfoStep({ book }: ReadingInfoStepProps) {
         <BookInfo book={book} />
         <ReadingInfoSelect />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="space-y-2">
-            <Label htmlFor="startDate">읽기 시작한 날짜</Label>
-            <Controller
-              control={control}
-              name="startDate"
-              rules={{ required: true }}
-              render={({ field }) => (
-                <>
-                  <DatePicker
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                </>
-              )}
-            ></Controller>
-            {errors.startDate && <p className="text-red-500">읽기 시작한 날짜는 필수 값입니다.</p>}
-          </div>
+          <StartDatePicker />
           <div className="space-y-2">
             <Label htmlFor="endDate">읽은 마지막 날짜</Label>
             <Controller
