@@ -24,7 +24,9 @@ export const bookNoteFormSchema = z.object({
   overallRating: z.number({
     required_error: '전체 평점은 필수 값입니다.',
   }),
-  content: z.string(),
+  content: z.string().min(1, {
+    message: '독후감은 필수 값입니다.',
+  }),
   quotes: z.array(quoteSchema),
   visibility: z.boolean(),
 });
