@@ -1,3 +1,4 @@
+import { isNotNil } from 'es-toolkit';
 import { Controller, useFormContext } from 'react-hook-form';
 import { DatePicker } from '@/shared/ui/date-picker';
 import { Label } from '@/shared/ui/label';
@@ -15,15 +16,14 @@ export default function EndDateField() {
       <Controller
         control={control}
         name="endDate"
-        rules={{ required: true }}
         render={({ field }) => (
           <DatePicker
             value={field.value}
             onChange={field.onChange}
           />
         )}
-      ></Controller>
-      {errors.endDate && <p className="text-red-500">읽은 마지막 날짜는 필수 값입니다.</p>}
+      />
+      {isNotNil(errors.endDate) && <p className="text-red-500">{errors.endDate.message}</p>}
     </div>
   );
 }
