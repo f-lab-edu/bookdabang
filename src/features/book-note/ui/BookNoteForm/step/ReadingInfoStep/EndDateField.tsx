@@ -3,6 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { DatePicker } from '@/shared/ui/date-picker';
 import { Label } from '@/shared/ui/label';
 import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
+import { cn } from '@/shared/lib/utils';
 
 export default function EndDateField() {
   const {
@@ -12,14 +13,24 @@ export default function EndDateField() {
 
   return (
     <div className="space-y-2">
-      <Label htmlFor="endDate">읽은 마지막 날짜</Label>
+      <Label
+        htmlFor="endDate"
+        required
+      >
+        읽은 마지막 날짜
+      </Label>
       <Controller
         control={control}
         name="endDate"
         render={({ field }) => (
           <DatePicker
+            id="endDate"
             value={field.value}
             onChange={field.onChange}
+            className={cn(isNotNil(errors.endDate) && 'border-red-500 focus-visible:ring-red-500')}
+            aria-describedby={isNotNil(errors.endDate) ? 'endDateError' : undefined}
+            aria-invalid={isNotNil(errors.endDate)}
+            aria-required="true"
           />
         )}
       />
