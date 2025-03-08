@@ -1,12 +1,12 @@
 import { useFormContext } from 'react-hook-form';
 import { Textarea } from '@/shared/ui/textarea';
-import { BookNoteFormValues } from '../../../../model/book-note-form-values';
+import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
 
 export default function ReviewField() {
   const {
     register,
     formState: { errors },
-  } = useFormContext<BookNoteFormValues>();
+  } = useFormContext<BookNoteFormSchema>();
 
   return (
     <>

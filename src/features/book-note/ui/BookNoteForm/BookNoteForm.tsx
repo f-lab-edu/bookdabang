@@ -2,11 +2,12 @@
 
 import { useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FunnelProvider, useFunnel } from '@/shared/lib/funnel';
 import { Form } from '@/shared/ui/form';
 import { RenderCase } from '@/shared/ui/render-case';
 import { useBookDetail } from '@/entities/book';
-import { BookNoteFormValues } from '../../model/book-note-form-values';
+import { BookNoteFormSchema, bookNoteFormSchema } from '../../model/book-note-form-schema';
 import BookNoteFormActions from './BookNoteFormActions';
 import ReadingInfoStep from './step/ReadingInfoStep';
 import RatingStep from './step/RatingStep';
@@ -19,7 +20,9 @@ export default function BookNoteForm() {
 
   const book = useBookDetail(isbn);
 
-  const form = useForm<BookNoteFormValues>();
+  const form = useForm<BookNoteFormSchema>({
+    resolver: zodResolver(bookNoteFormSchema),
+  });
 
   const funnel = useFunnel({ totalSteps: 5 });
 
@@ -33,6 +36,7 @@ export default function BookNoteForm() {
         <form
           className="mx-auto w-full max-w-4xl space-y-8 p-4 md:p-6"
           onSubmit={handleSubmit}
+          noValidate
         >
           <RenderCase
             value={funnel.currentStep}

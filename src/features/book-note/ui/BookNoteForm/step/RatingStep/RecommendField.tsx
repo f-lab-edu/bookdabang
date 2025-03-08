@@ -4,10 +4,10 @@ import { ThumbsDown, ThumbsUp } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
 import { Label } from '@/shared/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
-import { BookNoteFormValues } from '../../../../model/book-note-form-values';
+import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
 
 export default function RecommendField() {
-  const { control } = useFormContext<BookNoteFormValues>();
+  const { control } = useFormContext<BookNoteFormSchema>();
 
   return (
     <div className="space-y-3">

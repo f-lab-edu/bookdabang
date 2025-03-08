@@ -1,13 +1,13 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { DatePicker } from '@/shared/ui/date-picker';
 import { Label } from '@/shared/ui/label';
-import { BookNoteFormValues } from '../../../../model/book-note-form-values';
+import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
 
 export default function EndDateField() {
   const {
     control,
     formState: { errors },
-  } = useFormContext<BookNoteFormValues>();
+  } = useFormContext<BookNoteFormSchema>();
 
   return (
     <div className="space-y-2">

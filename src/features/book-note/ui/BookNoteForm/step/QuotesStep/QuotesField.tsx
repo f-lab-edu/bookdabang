@@ -3,14 +3,14 @@ import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Textarea } from '@/shared/ui/textarea';
-import { BookNoteFormValues, Quote } from '../../../../model/book-note-form-values';
+import { BookNoteFormSchema, QuoteSchema } from '../../../../model/book-note-form-schema';
 
 export default function QuotesField() {
   const {
     control,
     register,
     formState: { errors },
-  } = useFormContext<BookNoteFormValues>();
+  } = useFormContext<BookNoteFormSchema>();
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -18,7 +18,7 @@ export default function QuotesField() {
     rules: {
       required: '기억에 남는 문구는 최소 하나 이상 입력해야 합니다.',
       validate: {
-        isNotEmpty: (quotes: Quote[]) =>
+        isNotEmpty: (quotes: QuoteSchema[]) =>
           quotes.every((quote) => quote.text.trim() !== '' && quote.page.trim() !== '')
             ? true
             : '문구와 페이지 번호는 빈 값이면 안 됩니다.',

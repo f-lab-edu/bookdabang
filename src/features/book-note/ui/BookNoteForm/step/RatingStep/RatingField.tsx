@@ -1,13 +1,13 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { Label } from '@/shared/ui/label';
 import { StarRating } from '@/shared/ui/star-rating';
-import { BookNoteFormValues } from '../../../../model/book-note-form-values';
+import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
 
 export default function RatingField() {
   const {
     control,
     formState: { errors },
-  } = useFormContext<BookNoteFormValues>();
+  } = useFormContext<BookNoteFormSchema>();
 
   return (
     <div className="space-y-2">

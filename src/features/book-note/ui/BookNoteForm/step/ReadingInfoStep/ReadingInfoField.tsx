@@ -1,7 +1,7 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
-import { BookNoteFormValues } from '../../../../model/book-note-form-values';
+import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
 import { ReadingStatus } from '../../../../model/reading-status';
 
 const readingStatusLabels = {
@@ -16,7 +16,7 @@ export default function ReadingInfoField() {
   const {
     control,
     formState: { errors },
-  } = useFormContext<BookNoteFormValues>();
+  } = useFormContext<BookNoteFormSchema>();
 
   return (
     <div className="space-y-2">
