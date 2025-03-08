@@ -2,8 +2,12 @@ import { z } from 'zod';
 import { ReadingStatus } from './reading-status';
 
 export const quoteSchema = z.object({
-  text: z.string(),
-  page: z.string(),
+  text: z.string().trim().min(1, {
+    message: '기억에 남는 문구는 필수 값입니다.',
+  }),
+  page: z.string().trim().min(1, {
+    message: '페이지 번호는 필수 값입니다.',
+  }),
 });
 
 export type QuoteSchema = z.infer<typeof quoteSchema>;
@@ -27,7 +31,9 @@ export const bookNoteFormSchema = z.object({
   content: z.string().min(1, {
     message: '독후감은 필수 값입니다.',
   }),
-  quotes: z.array(quoteSchema),
+  quotes: z.array(quoteSchema).min(1, {
+    message: '기억에 남는 문구는 최소 하나 이상 입력해야 합니다.',
+  }),
   visibility: z.boolean(),
 });
 
