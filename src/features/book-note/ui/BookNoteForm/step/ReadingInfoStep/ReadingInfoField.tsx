@@ -1,4 +1,6 @@
+import { isNotNil } from 'es-toolkit';
 import { Controller, useFormContext } from 'react-hook-form';
+import { cn } from '@/shared/lib/utils';
 import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
@@ -20,7 +22,12 @@ export default function ReadingInfoField() {
 
   return (
     <div className="space-y-2">
-      <Label>읽기 상태</Label>
+      <Label
+        required
+        htmlFor="readingStatus"
+      >
+        읽기 상태
+      </Label>
       <Controller
         control={control}
         name="readingStatus"
@@ -29,7 +36,13 @@ export default function ReadingInfoField() {
             value={field.value}
             onValueChange={field.onChange}
           >
-            <SelectTrigger className="w-[200px]">
+            <SelectTrigger
+              id="readingStatus"
+              className={cn('w-[200px]', isNotNil(errors.readingStatus) && 'border-red-500 focus:ring-red-500')}
+              aria-describedby={isNotNil(errors.readingStatus) ? 'readingStatusError' : undefined}
+              aria-invalid={isNotNil(errors.readingStatus)}
+              aria-required="true"
+            >
               <SelectValue placeholder="읽기 상태" />
             </SelectTrigger>
             <SelectContent>
@@ -45,7 +58,14 @@ export default function ReadingInfoField() {
           </Select>
         )}
       />
-      {errors.readingStatus && <p className="text-red-500">{errors.readingStatus.message}</p>}
+      {isNotNil(errors.readingStatus) && (
+        <p
+          id="readingStatusError"
+          className="text-red-500"
+        >
+          {errors.readingStatus.message}
+        </p>
+      )}
     </div>
   );
 }
