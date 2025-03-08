@@ -24,7 +24,6 @@ export default function ReadingInfoField() {
       <Controller
         control={control}
         name="readingStatus"
-        rules={{ required: true }}
         render={({ field }) => (
           <Select
             value={field.value}
@@ -45,8 +44,8 @@ export default function ReadingInfoField() {
             </SelectContent>
           </Select>
         )}
-      ></Controller>
-      {errors.readingStatus && <p className="text-red-500">읽기 상태는 필수 값입니다.</p>}
+      />
+      {errors.readingStatus && <p className="text-red-500">{errors.readingStatus.message}</p>}
     </div>
   );
 }

@@ -9,7 +9,9 @@ export const quoteSchema = z.object({
 export type QuoteSchema = z.infer<typeof quoteSchema>;
 
 export const bookNoteFormSchema = z.object({
-  readingStatus: z.nativeEnum(ReadingStatus),
+  readingStatus: z.nativeEnum(ReadingStatus, {
+    required_error: '읽기 상태는 필수 값입니다.',
+  }),
   startDate: z.date(),
   endDate: z.date(),
   recommended: z.boolean().nullable(),
