@@ -12,7 +12,9 @@ export const bookNoteFormSchema = z.object({
   readingStatus: z.nativeEnum(ReadingStatus, {
     required_error: '읽기 상태는 필수 값입니다.',
   }),
-  startDate: z.date(),
+  startDate: z.date({
+    required_error: '읽기 시작한 날짜는 필수 값입니다.',
+  }),
   endDate: z.date(),
   recommended: z.boolean().nullable(),
   overallRating: z.number(),

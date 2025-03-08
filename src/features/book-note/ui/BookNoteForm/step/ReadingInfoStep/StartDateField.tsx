@@ -1,3 +1,4 @@
+import { isNotNil } from 'es-toolkit';
 import { Controller, useFormContext } from 'react-hook-form';
 import { DatePicker } from '@/shared/ui/date-picker';
 import { Label } from '@/shared/ui/label';
@@ -15,7 +16,6 @@ export default function StartDateField() {
       <Controller
         control={control}
         name="startDate"
-        rules={{ required: true }}
         render={({ field }) => (
           <DatePicker
             value={field.value}
@@ -23,7 +23,7 @@ export default function StartDateField() {
           />
         )}
       />
-      {errors.startDate && <p className="text-red-500">읽기 시작한 날짜는 필수 값입니다.</p>}
+      {isNotNil(errors.startDate) && <p className="text-red-500">{errors.startDate.message}</p>}
     </div>
   );
 }
