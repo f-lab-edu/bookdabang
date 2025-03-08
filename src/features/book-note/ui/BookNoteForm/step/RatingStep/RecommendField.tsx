@@ -1,4 +1,4 @@
-import { isNil } from 'es-toolkit';
+import { isNil, isNotNil } from 'es-toolkit';
 import { Controller, useFormContext } from 'react-hook-form';
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
@@ -7,11 +7,14 @@ import { RadioGroup, RadioGroupItem } from '@/shared/ui/radio-group';
 import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
 
 export default function RecommendField() {
-  const { control } = useFormContext<BookNoteFormSchema>();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<BookNoteFormSchema>();
 
   return (
     <div className="space-y-3">
-      <Label>이 책을 추천할까요?</Label>
+      <Label required>이 책을 추천할까요?</Label>
       <Controller
         control={control}
         name="recommended"
@@ -58,6 +61,7 @@ export default function RecommendField() {
           </RadioGroup>
         )}
       />
+      {isNotNil(errors.recommended) && <p className="text-red-500">{errors.recommended.message}</p>}
     </div>
   );
 }

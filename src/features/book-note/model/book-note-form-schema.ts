@@ -18,7 +18,9 @@ export const bookNoteFormSchema = z.object({
   endDate: z.date({
     required_error: '읽은 마지막 날짜는 필수 값입니다.',
   }),
-  recommended: z.boolean().nullable(),
+  recommended: z.boolean({
+    required_error: '추천 여부는 필수 값입니다.',
+  }),
   overallRating: z.number({
     required_error: '전체 평점은 필수 값입니다.',
   }),
