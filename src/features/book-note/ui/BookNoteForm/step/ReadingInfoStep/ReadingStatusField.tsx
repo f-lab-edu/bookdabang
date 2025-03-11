@@ -38,6 +38,7 @@ export default function ReadingStatusField() {
           >
             <SelectTrigger
               id="readingStatus"
+              ref={field.ref}
               className={cn(
                 'w-[200px]',
                 isNotNil(errors.readingInfo?.readingStatus) && 'border-red-500 focus:ring-red-500',

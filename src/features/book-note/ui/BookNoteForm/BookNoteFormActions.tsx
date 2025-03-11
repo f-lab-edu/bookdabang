@@ -26,7 +26,7 @@ export default function BookNoteFormActions({
   const { currentStep, isFirstStep, isLastStep, goToPreviousStep, goToNextStep } = useFunnelContext();
 
   const handleNext = async () => {
-    const isValid = await trigger(triggerFields[currentStep]);
+    const isValid = await trigger(triggerFields[currentStep], { shouldFocus: true });
     if (isValid) goToNextStep();
   };
 
