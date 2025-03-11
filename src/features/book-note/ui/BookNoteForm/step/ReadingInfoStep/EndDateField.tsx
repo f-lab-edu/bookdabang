@@ -20,9 +20,10 @@ export default function EndDateField() {
         render={({ field }) => (
           <DatePicker
             id="endDate"
+            ref={field.ref}
             value={field.value}
             onChange={field.onChange}
-            className={cn(isNotNil(errors.readingInfo?.endDate) && 'border-red-500 focus-visible:ring-red-500')}
+            className={cn(isNotNil(errors.readingInfo?.endDate) && 'border-red-500 focus:ring-red-500')}
             aria-describedby={isNotNil(errors.readingInfo?.endDate) ? 'endDateError' : undefined}
             aria-invalid={isNotNil(errors.readingInfo?.endDate)}
           />

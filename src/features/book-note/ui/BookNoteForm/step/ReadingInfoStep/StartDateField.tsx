@@ -20,9 +20,10 @@ export default function StartDateField() {
         render={({ field }) => (
           <DatePicker
             id="startDate"
+            ref={field.ref}
             value={field.value}
             onChange={field.onChange}
-            className={cn(isNotNil(errors.readingInfo?.startDate) && 'border-red-500 focus-visible:ring-red-500')}
+            className={cn(isNotNil(errors.readingInfo?.startDate) && 'border-red-500 focus:ring-red-500')}
             aria-describedby={isNotNil(errors.readingInfo?.startDate) ? 'startDateError' : undefined}
             aria-invalid={isNotNil(errors.readingInfo?.startDate)}
           />
