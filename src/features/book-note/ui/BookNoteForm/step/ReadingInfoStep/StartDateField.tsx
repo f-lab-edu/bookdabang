@@ -13,33 +13,27 @@ export default function StartDateField() {
 
   return (
     <div className="space-y-2">
-      <Label
-        htmlFor="startDate"
-        required
-      >
-        읽기 시작한 날짜
-      </Label>
+      <Label htmlFor="startDate">읽기 시작한 날짜</Label>
       <Controller
         control={control}
-        name="startDate"
+        name="readingInfo.startDate"
         render={({ field }) => (
           <DatePicker
             id="startDate"
             value={field.value}
             onChange={field.onChange}
-            className={cn(isNotNil(errors.startDate) && 'border-red-500 focus-visible:ring-red-500')}
-            aria-describedby={isNotNil(errors.startDate) ? 'startDateError' : undefined}
-            aria-invalid={isNotNil(errors.startDate)}
-            aria-required="true"
+            className={cn(isNotNil(errors.readingInfo?.startDate) && 'border-red-500 focus-visible:ring-red-500')}
+            aria-describedby={isNotNil(errors.readingInfo?.startDate) ? 'startDateError' : undefined}
+            aria-invalid={isNotNil(errors.readingInfo?.startDate)}
           />
         )}
       />
-      {isNotNil(errors.startDate) && (
+      {isNotNil(errors.readingInfo?.startDate) && (
         <p
           id="startDateError"
           className="text-red-500"
         >
-          {errors.startDate.message}
+          {errors.readingInfo?.startDate?.message}
         </p>
       )}
     </div>

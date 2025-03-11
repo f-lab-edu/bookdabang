@@ -14,7 +14,7 @@ const readingStatusLabels = {
   [ReadingStatus.DROPPED]: '포기했어요',
 } as const;
 
-export default function ReadingInfoField() {
+export default function ReadingStatusField() {
   const {
     control,
     formState: { errors },
@@ -30,7 +30,7 @@ export default function ReadingInfoField() {
       </Label>
       <Controller
         control={control}
-        name="readingStatus"
+        name="readingInfo.readingStatus"
         render={({ field }) => (
           <Select
             value={field.value}
@@ -38,9 +38,12 @@ export default function ReadingInfoField() {
           >
             <SelectTrigger
               id="readingStatus"
-              className={cn('w-[200px]', isNotNil(errors.readingStatus) && 'border-red-500 focus:ring-red-500')}
-              aria-describedby={isNotNil(errors.readingStatus) ? 'readingStatusError' : undefined}
-              aria-invalid={isNotNil(errors.readingStatus)}
+              className={cn(
+                'w-[200px]',
+                isNotNil(errors.readingInfo?.readingStatus) && 'border-red-500 focus:ring-red-500',
+              )}
+              aria-describedby={isNotNil(errors.readingInfo?.readingStatus) ? 'readingStatusError' : undefined}
+              aria-invalid={isNotNil(errors.readingInfo?.readingStatus)}
               aria-required="true"
             >
               <SelectValue placeholder="읽기 상태" />
@@ -58,12 +61,12 @@ export default function ReadingInfoField() {
           </Select>
         )}
       />
-      {isNotNil(errors.readingStatus) && (
+      {isNotNil(errors.readingInfo?.readingStatus) && (
         <p
           id="readingStatusError"
           className="text-red-500"
         >
-          {errors.readingStatus.message}
+          {errors.readingInfo?.readingStatus.message}
         </p>
       )}
     </div>

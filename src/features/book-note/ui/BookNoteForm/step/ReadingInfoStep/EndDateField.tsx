@@ -1,9 +1,9 @@
 import { isNotNil } from 'es-toolkit';
 import { Controller, useFormContext } from 'react-hook-form';
+import { cn } from '@/shared/lib/utils';
 import { DatePicker } from '@/shared/ui/date-picker';
 import { Label } from '@/shared/ui/label';
 import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
-import { cn } from '@/shared/lib/utils';
 
 export default function EndDateField() {
   const {
@@ -13,28 +13,22 @@ export default function EndDateField() {
 
   return (
     <div className="space-y-2">
-      <Label
-        htmlFor="endDate"
-        required
-      >
-        읽은 마지막 날짜
-      </Label>
+      <Label htmlFor="endDate">읽은 마지막 날짜</Label>
       <Controller
         control={control}
-        name="endDate"
+        name="readingInfo.endDate"
         render={({ field }) => (
           <DatePicker
             id="endDate"
             value={field.value}
             onChange={field.onChange}
-            className={cn(isNotNil(errors.endDate) && 'border-red-500 focus-visible:ring-red-500')}
-            aria-describedby={isNotNil(errors.endDate) ? 'endDateError' : undefined}
-            aria-invalid={isNotNil(errors.endDate)}
-            aria-required="true"
+            className={cn(isNotNil(errors.readingInfo?.endDate) && 'border-red-500 focus-visible:ring-red-500')}
+            aria-describedby={isNotNil(errors.readingInfo?.endDate) ? 'endDateError' : undefined}
+            aria-invalid={isNotNil(errors.readingInfo?.endDate)}
           />
         )}
       />
-      {isNotNil(errors.endDate) && <p className="text-red-500">{errors.endDate.message}</p>}
+      {isNotNil(errors.readingInfo?.endDate) && <p className="text-red-500">{errors.readingInfo?.endDate?.message}</p>}
     </div>
   );
 }

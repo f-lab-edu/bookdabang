@@ -4,7 +4,7 @@ import { Button } from '@/shared/ui/button';
 import { BookNoteFormSchema } from '../../model/book-note-form-schema';
 
 const triggerFields: Record<number, (keyof BookNoteFormSchema)[]> = {
-  1: ['readingStatus', 'startDate', 'endDate'],
+  1: ['readingInfo'],
   2: ['recommended', 'overallRating'],
   3: ['content'],
   4: ['quotes'],

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ReadingStatus } from './reading-status';
+import { readingInfoSchema } from './reading-info-schema';
 
 export const quoteSchema = z.object({
   text: z.string().trim().min(1, {
@@ -13,15 +13,7 @@ export const quoteSchema = z.object({
 export type QuoteSchema = z.infer<typeof quoteSchema>;
 
 export const bookNoteFormSchema = z.object({
-  readingStatus: z.nativeEnum(ReadingStatus, {
-    required_error: '읽기 상태는 필수 값입니다.',
-  }),
-  startDate: z.date({
-    required_error: '읽기 시작한 날짜는 필수 값입니다.',
-  }),
-  endDate: z.date({
-    required_error: '읽은 마지막 날짜는 필수 값입니다.',
-  }),
+  readingInfo: readingInfoSchema,
   recommended: z.boolean({
     required_error: '추천 여부는 필수 값입니다.',
   }),
