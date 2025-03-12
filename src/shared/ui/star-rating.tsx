@@ -5,7 +5,7 @@ interface StarRatingProps {
   onRatingChange?: (rating: number) => void;
 }
 
-export default function StarRating({ rating, onRatingChange }: StarRatingProps) {
+const StarRating = ({ rating, onRatingChange }: StarRatingProps) => {
   return (
     <div className="flex items-center space-x-1">
       {[1, 2, 3, 4, 5].map((star) => (
@@ -25,4 +25,6 @@ export default function StarRating({ rating, onRatingChange }: StarRatingProps) 
       ))}
     </div>
   );
-}
+};
+
+export { StarRating };
