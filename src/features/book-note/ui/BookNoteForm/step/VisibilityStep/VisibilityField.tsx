@@ -1,10 +1,10 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { Label } from '@/shared/ui/label';
 import { Switch } from '@/shared/ui/switch';
-import { BookNoteFormValues } from '../../../../model/book-note-form-values';
+import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
 
 export default function VisibilityField() {
-  const { control } = useFormContext<BookNoteFormValues>();
+  const { control } = useFormContext<BookNoteFormSchema>();
 
   return (
     <div className="flex items-center space-x-2">

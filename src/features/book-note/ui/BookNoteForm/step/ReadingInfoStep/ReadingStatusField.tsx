@@ -1,7 +1,9 @@
+import { isNotNil } from 'es-toolkit';
 import { Controller, useFormContext } from 'react-hook-form';
+import { cn } from '@/shared/lib/utils';
 import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
-import { BookNoteFormValues } from '../../../../model/book-note-form-values';
+import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
 import { ReadingStatus } from '../../../../model/reading-status';
 
 const readingStatusLabels = {
@@ -12,25 +14,39 @@ const readingStatusLabels = {
   [ReadingStatus.DROPPED]: '포기했어요',
 } as const;
 
-export default function ReadingInfoField() {
+export default function ReadingStatusField() {
   const {
     control,
     formState: { errors },
-  } = useFormContext<BookNoteFormValues>();
+  } = useFormContext<BookNoteFormSchema>();
 
   return (
     <div className="space-y-2">
-      <Label>읽기 상태</Label>
+      <Label
+        required
+        htmlFor="readingStatus"
+      >
+        읽기 상태
+      </Label>
       <Controller
         control={control}
-        name="readingStatus"
-        rules={{ required: true }}
+        name="readingInfo.readingStatus"
         render={({ field }) => (
           <Select
             value={field.value}
             onValueChange={field.onChange}
           >
-            <SelectTrigger className="w-[200px]">
+            <SelectTrigger
+              id="readingStatus"
+              ref={field.ref}
+              className={cn(
+                'w-[200px]',
+                isNotNil(errors.readingInfo?.readingStatus) && 'border-red-500 focus:ring-red-500',
+              )}
+              aria-describedby={isNotNil(errors.readingInfo?.readingStatus) ? 'readingStatusError' : undefined}
+              aria-invalid={isNotNil(errors.readingInfo?.readingStatus)}
+              aria-required="true"
+            >
               <SelectValue placeholder="읽기 상태" />
             </SelectTrigger>
             <SelectContent>
@@ -45,8 +61,15 @@ export default function ReadingInfoField() {
             </SelectContent>
           </Select>
         )}
-      ></Controller>
-      {errors.readingStatus && <p className="text-red-500">읽기 상태는 필수 값입니다.</p>}
+      />
+      {isNotNil(errors.readingInfo?.readingStatus) && (
+        <p
+          id="readingStatusError"
+          className="text-red-500"
+        >
+          {errors.readingInfo?.readingStatus.message}
+        </p>
+      )}
     </div>
   );
 }

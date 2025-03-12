@@ -7,15 +7,27 @@ import { cn } from '@/shared/lib/utils';
 
 const labelVariants = cva('text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70');
 
-const Label = forwardRef<
-  ElementRef<typeof LabelRoot>,
-  ComponentPropsWithoutRef<typeof LabelRoot> & VariantProps<typeof labelVariants>
->(({ className, ...props }, ref) => (
+type LabelProps = ComponentPropsWithoutRef<typeof LabelRoot> &
+  VariantProps<typeof labelVariants> & {
+    required?: boolean;
+  };
+
+const Label = forwardRef<ElementRef<typeof LabelRoot>, LabelProps>(({ className, required, ...props }, ref) => (
   <LabelRoot
     ref={ref}
     className={cn(labelVariants(), className)}
     {...props}
-  />
+  >
+    {props.children}
+    {required && (
+      <span
+        aria-hidden="true"
+        className="ml-1 text-red-500"
+      >
+        *
+      </span>
+    )}
+  </LabelRoot>
 ));
 Label.displayName = LabelRoot.displayName;
 
