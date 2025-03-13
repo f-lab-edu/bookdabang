@@ -7,15 +7,11 @@ import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
 
 export default function QuotesField() {
   const {
-    control,
     register,
     formState: { errors },
   } = useFormContext<BookNoteFormSchema>();
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'quotes',
-  });
+  const { fields, append, remove } = useFieldArray({ name: 'quotes' });
 
   return (
     <>
