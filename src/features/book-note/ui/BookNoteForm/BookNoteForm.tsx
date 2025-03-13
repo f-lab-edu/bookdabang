@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { FieldErrors, useForm } from 'react-hook-form';
+import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FunnelProvider, useFunnel } from '@/shared/lib/funnel';
 import { Form } from '@/shared/ui/form';
@@ -75,6 +76,7 @@ export default function BookNoteForm() {
           />
           <BookNoteFormActions />
         </form>
+        <DevTool control={form.control} />
       </Form>
     </FunnelProvider>
   );
