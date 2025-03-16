@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { isNotEmpty } from '@/shared/lib/string-utils';
 import { BookDetail } from '@/entities/book';
 
 interface BookInfoProps {
@@ -25,7 +26,7 @@ export default function BookInfo({ book }: BookInfoProps) {
         <p>
           <strong>페이지:</strong> {book.pageCount}쪽
         </p>
-        {!!book.description && (
+        {isNotEmpty(book.description) && (
           <p>
             <strong>설명:</strong> {book.description}
           </p>
