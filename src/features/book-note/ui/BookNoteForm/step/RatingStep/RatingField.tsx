@@ -18,8 +18,8 @@ export default function RatingField() {
         name="rating"
         render={({ field }) => (
           <StarRating
-            rating={field.value}
-            onRatingChange={field.onChange}
+            value={field.value}
+            onChange={field.onChange}
           />
         )}
       />
