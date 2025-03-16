@@ -6,7 +6,7 @@ import { BookNoteFormSchema } from '../../model/book-note-form-schema';
 const triggerFields: Record<number, (keyof BookNoteFormSchema)[]> = {
   1: ['readingInfo'],
   2: ['recommended', 'overallRating'],
-  3: ['content'],
+  3: ['review'],
   4: ['quotes'],
   5: ['visibility'],
 };

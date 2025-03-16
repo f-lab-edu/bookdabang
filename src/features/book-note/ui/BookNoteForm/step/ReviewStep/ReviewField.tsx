@@ -12,12 +12,12 @@ export default function ReviewField() {
   return (
     <>
       <Textarea
-        {...register('content')}
-        id="content"
+        {...register('review')}
+        id="review"
         className="min-h-[200px]"
         placeholder="독후감을 작성해 보세요!"
       />
-      {isNotNil(errors.content) && <p className="text-red-500">{errors.content.message}</p>}
+      {isNotNil(errors.review) && <p className="text-red-500">{errors.review.message}</p>}
     </>
   );
 }
