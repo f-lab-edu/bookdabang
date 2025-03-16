@@ -1,11 +1,11 @@
 'use client';
 
-import { RefObject, useState } from 'react';
+import { Ref, useState } from 'react';
 import { Star } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { cn } from '@/shared/lib/utils';
 
 interface StarRatingProps {
-  ref?: RefObject<HTMLDivElement>;
+  ref?: Ref<HTMLDivElement>;
   className?: string;
   value: number;
   onChange?: (rating: number) => void;
@@ -17,16 +17,15 @@ const StarRating = ({ ref, className, value, onChange }: StarRatingProps) => {
   return (
     <div
       ref={ref}
-      className={cn('flex items-center focus-visible:ring-ring', className)}
-      tabIndex={0}
+      className={cn('flex items-center', className)}
     >
       {[1, 2, 3, 4, 5].map((star) => (
         <Star
           key={star}
-          className={cn('size-6 cursor-pointer', star <= hovered ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300')}
           onClick={() => onChange?.(hovered)}
           onMouseEnter={() => setHovered(star)}
           onMouseLeave={() => setHovered(value)}
+          className={cn('size-6 cursor-pointer', star <= hovered ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300')}
         />
       ))}
     </div>
