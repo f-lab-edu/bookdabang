@@ -17,7 +17,7 @@ export const bookNoteFormSchema = z.object({
   recommended: z.boolean({
     required_error: '추천 여부는 필수 값입니다.',
   }),
-  overallRating: z.number({
+  rating: z.number({
     required_error: '전체 평점은 필수 값입니다.',
   }),
   review: z.string().min(1, {

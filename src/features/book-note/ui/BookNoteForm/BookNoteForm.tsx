@@ -20,7 +20,7 @@ import { isNotNil } from 'es-toolkit';
 
 const triggerFields = new Map<number, (keyof BookNoteFormSchema)[]>([
   [1, ['readingInfo']],
-  [2, ['recommended', 'overallRating']],
+  [2, ['recommended', 'rating']],
   [3, ['review']],
   [4, ['quotes']],
   [5, ['visibility']],

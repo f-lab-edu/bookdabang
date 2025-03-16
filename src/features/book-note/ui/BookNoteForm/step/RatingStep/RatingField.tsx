@@ -15,7 +15,7 @@ export default function RatingField() {
       <Label>전체 평점</Label>
       <Controller
         control={control}
-        name="overallRating"
+        name="rating"
         render={({ field }) => (
           <StarRating
             rating={field.value}
@@ -23,7 +23,7 @@ export default function RatingField() {
           />
         )}
       />
-      {isNotNil(errors.overallRating) && <p className="text-red-500">{errors.overallRating.message}</p>}
+      {isNotNil(errors.rating) && <p className="text-red-500">{errors.rating.message}</p>}
     </div>
   );
 }
