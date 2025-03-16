@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
@@ -34,7 +35,23 @@ export default function BookNoteForm() {
     resolver: zodResolver(bookNoteFormSchema),
   });
 
-  const funnel = useFunnel({ totalSteps: 5 });
+  const onStepChange = useCallback(
+    (step: number) => {
+      for (const field of triggerFields.get(step) ?? []) {
+        const error = form.formState.errors[field];
+        if (isNotNil(error)) {
+          form.setFocus(field);
+          return;
+        }
+      }
+    },
+    [form],
+  );
+
+  const funnel = useFunnel({
+    totalSteps: 5,
+    onStepChange,
+  });
 
   const onSubmit = (data: BookNoteFormSchema) => {
     console.log(data);
@@ -45,11 +62,6 @@ export default function BookNoteForm() {
       for (const field of fields) {
         if (isNotNil(errors[field])) {
           funnel.goToStep(step);
-
-          setTimeout(() => {
-            form.trigger(triggerFields.get(step));
-          }, 500);
-
           return;
         }
       }
