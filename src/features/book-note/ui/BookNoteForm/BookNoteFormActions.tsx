@@ -8,7 +8,7 @@ const triggerFields: Record<number, (keyof BookNoteFormSchema)[]> = {
   2: ['recommended', 'rating'],
   3: ['review'],
   4: ['quotes'],
-  5: ['visibility'],
+  5: ['publish'],
 };
 
 interface BookNoteFormActionsProps {

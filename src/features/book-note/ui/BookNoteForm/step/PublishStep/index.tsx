@@ -1,14 +1,14 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/card';
-import VisibilityField from './VisibilityField';
+import PublishField from './PublishField';
 
-export default function VisibilityStep() {
+export default function PublishStep() {
   return (
     <Card>
       <CardHeader>
         <CardTitle>노트 공개 설정</CardTitle>
       </CardHeader>
       <CardContent>
-        <VisibilityField />
+        <PublishField />
       </CardContent>
     </Card>
   );

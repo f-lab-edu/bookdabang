@@ -26,7 +26,7 @@ export const bookNoteFormSchema = z.object({
   quotes: z.array(quoteSchema).min(1, {
     message: '기억에 남는 문구는 최소 하나 이상 입력해야 합니다.',
   }),
-  visibility: z.boolean(),
+  publish: z.boolean(),
 });
 
 export type BookNoteFormSchema = z.infer<typeof bookNoteFormSchema>;

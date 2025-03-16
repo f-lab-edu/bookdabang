@@ -15,7 +15,7 @@ import ReadingInfoStep from './step/ReadingInfoStep';
 import RatingStep from './step/RatingStep';
 import ReviewStep from './step/ReviewStep';
 import QuotesStep from './step/QuotesStep';
-import VisibilityStep from './step/VisibilityStep';
+import PublishStep from './step/PublishStep';
 import { isNotNil } from 'es-toolkit';
 
 const triggerFields = new Map<number, (keyof BookNoteFormSchema)[]>([
@@ -23,7 +23,7 @@ const triggerFields = new Map<number, (keyof BookNoteFormSchema)[]>([
   [2, ['recommended', 'rating']],
   [3, ['review']],
   [4, ['quotes']],
-  [5, ['visibility']],
+  [5, ['publish']],
 ]);
 
 export default function BookNoteForm() {
@@ -83,7 +83,7 @@ export default function BookNoteForm() {
               2: <RatingStep />,
               3: <ReviewStep />,
               4: <QuotesStep />,
-              5: <VisibilityStep />,
+              5: <PublishStep />,
             }}
           />
           <BookNoteFormActions />
