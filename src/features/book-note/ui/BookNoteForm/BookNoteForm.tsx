@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { isNotNil } from 'es-toolkit';
 import { FieldErrors, useForm } from 'react-hook-form';
@@ -10,7 +10,7 @@ import { FunnelProvider, useFunnel } from '@/shared/lib/funnel';
 import { Form } from '@/shared/ui/form';
 import { RenderCase } from '@/shared/ui/render-case';
 import { useBookDetail } from '@/entities/book';
-import { BookNoteFormSchema, bookNoteFormSchema } from '../../model/book-note-form-schema';
+import { BookNoteFormSchema, createBookNoteFormSchema } from '../../model/book-note-form-schema';
 import BookNoteFormActions from './BookNoteFormActions';
 import ReadingInfoStep from './step/ReadingInfoStep';
 import RatingStep from './step/RatingStep';
@@ -31,8 +31,10 @@ export default function BookNoteForm() {
 
   const book = useBookDetail(isbn);
 
+  const resolver = useMemo(() => zodResolver(createBookNoteFormSchema(book.pageCount)), [book.pageCount]);
+
   const form = useForm<BookNoteFormSchema>({
-    resolver: zodResolver(bookNoteFormSchema),
+    resolver,
     defaultValues: {
       readingInfo: {
         readingStatus: undefined,
