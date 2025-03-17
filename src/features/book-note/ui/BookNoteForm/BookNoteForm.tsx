@@ -2,6 +2,7 @@
 
 import { useCallback } from 'react';
 import { useParams } from 'next/navigation';
+import { isNotNil } from 'es-toolkit';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -16,7 +17,6 @@ import RatingStep from './step/RatingStep';
 import ReviewStep from './step/ReviewStep';
 import QuotesStep from './step/QuotesStep';
 import PublishStep from './step/PublishStep';
-import { isNotNil } from 'es-toolkit';
 
 const triggerFields = new Map<number, (keyof BookNoteFormSchema)[]>([
   [1, ['readingInfo']],
@@ -33,6 +33,18 @@ export default function BookNoteForm() {
 
   const form = useForm<BookNoteFormSchema>({
     resolver: zodResolver(bookNoteFormSchema),
+    defaultValues: {
+      readingInfo: {
+        readingStatus: undefined,
+        startDate: undefined,
+        endDate: undefined,
+      },
+      recommended: undefined,
+      rating: undefined,
+      review: '',
+      quotes: [],
+      publish: false,
+    },
   });
 
   const onStepChange = useCallback(
