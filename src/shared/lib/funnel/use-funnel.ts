@@ -7,9 +7,10 @@ const FIRST_FUNNEL_STEP = 1;
 
 interface UseFunnelProps {
   totalSteps: number;
+  onStepChange?: (step: number) => void;
 }
 
-export function useFunnel({ totalSteps }: UseFunnelProps): Funnel {
+export function useFunnel({ totalSteps, onStepChange }: UseFunnelProps): Funnel {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -46,6 +47,10 @@ export function useFunnel({ totalSteps }: UseFunnelProps): Funnel {
       goToStep(FIRST_FUNNEL_STEP);
     }
   }, [funnelStepParam, goToStep, totalSteps]);
+
+  useEffect(() => {
+    onStepChange?.(currentStep);
+  }, [currentStep, onStepChange]);
 
   return {
     totalSteps,

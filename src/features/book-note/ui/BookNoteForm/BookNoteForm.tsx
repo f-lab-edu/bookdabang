@@ -1,27 +1,29 @@
 'use client';
 
+import { useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
+import { isNotNil } from 'es-toolkit';
 import { FieldErrors, useForm } from 'react-hook-form';
+import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FunnelProvider, useFunnel } from '@/shared/lib/funnel';
 import { Form } from '@/shared/ui/form';
 import { RenderCase } from '@/shared/ui/render-case';
 import { useBookDetail } from '@/entities/book';
-import { BookNoteFormSchema, bookNoteFormSchema } from '../../model/book-note-form-schema';
+import { BookNoteFormSchema, createBookNoteFormSchema } from '../../model/book-note-form-schema';
 import BookNoteFormActions from './BookNoteFormActions';
 import ReadingInfoStep from './step/ReadingInfoStep';
 import RatingStep from './step/RatingStep';
 import ReviewStep from './step/ReviewStep';
 import QuotesStep from './step/QuotesStep';
-import VisibilityStep from './step/VisibilityStep';
-import { isNotNil } from 'es-toolkit';
+import PublishStep from './step/PublishStep';
 
 const triggerFields = new Map<number, (keyof BookNoteFormSchema)[]>([
   [1, ['readingInfo']],
-  [2, ['recommended', 'overallRating']],
-  [3, ['content']],
+  [2, ['recommended', 'rating']],
+  [3, ['review']],
   [4, ['quotes']],
-  [5, ['visibility']],
+  [5, ['publish']],
 ]);
 
 export default function BookNoteForm() {
@@ -29,11 +31,41 @@ export default function BookNoteForm() {
 
   const book = useBookDetail(isbn);
 
+  const resolver = useMemo(() => zodResolver(createBookNoteFormSchema(book.pageCount)), [book.pageCount]);
+
   const form = useForm<BookNoteFormSchema>({
-    resolver: zodResolver(bookNoteFormSchema),
+    resolver,
+    defaultValues: {
+      readingInfo: {
+        readingStatus: undefined,
+        startDate: undefined,
+        endDate: undefined,
+      },
+      recommended: undefined,
+      rating: undefined,
+      review: '',
+      quotes: [],
+      publish: false,
+    },
   });
 
-  const funnel = useFunnel({ totalSteps: 5 });
+  const onStepChange = useCallback(
+    (step: number) => {
+      for (const field of triggerFields.get(step) ?? []) {
+        const error = form.formState.errors[field];
+        if (isNotNil(error)) {
+          form.setFocus(field);
+          return;
+        }
+      }
+    },
+    [form],
+  );
+
+  const funnel = useFunnel({
+    totalSteps: 5,
+    onStepChange,
+  });
 
   const onSubmit = (data: BookNoteFormSchema) => {
     console.log(data);
@@ -44,11 +76,6 @@ export default function BookNoteForm() {
       for (const field of fields) {
         if (isNotNil(errors[field])) {
           funnel.goToStep(step);
-
-          setTimeout(() => {
-            form.trigger(triggerFields.get(step));
-          }, 500);
-
           return;
         }
       }
@@ -70,11 +97,12 @@ export default function BookNoteForm() {
               2: <RatingStep />,
               3: <ReviewStep />,
               4: <QuotesStep />,
-              5: <VisibilityStep />,
+              5: <PublishStep />,
             }}
           />
           <BookNoteFormActions />
         </form>
+        <DevTool control={form.control} />
       </Form>
     </FunnelProvider>
   );

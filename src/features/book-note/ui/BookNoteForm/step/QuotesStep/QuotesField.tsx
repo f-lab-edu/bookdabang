@@ -1,4 +1,6 @@
 import { useFieldArray, useFormContext } from 'react-hook-form';
+import { isNotNil } from 'es-toolkit';
+import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
@@ -7,15 +9,11 @@ import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
 
 export default function QuotesField() {
   const {
-    control,
     register,
     formState: { errors },
   } = useFormContext<BookNoteFormSchema>();
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'quotes',
-  });
+  const { fields, append, remove } = useFieldArray({ name: 'quotes' });
 
   return (
     <>
@@ -25,7 +23,7 @@ export default function QuotesField() {
           className="space-y-2"
         >
           <div className="flex items-center justify-between">
-            <Label htmlFor={`quote-${index}`}>문구 {index + 1}</Label>
+            <Label>문구 {index + 1}</Label>
             <Button
               type="button"
               variant="destructive"
@@ -38,15 +36,34 @@ export default function QuotesField() {
           <Textarea
             {...register(`quotes.${index}.text`)}
             placeholder="기억에 남는 문구를 입력해 주세요"
+            className={cn(isNotNil(errors.quotes?.[index]?.text) && 'border-red-500 focus-visible:ring-red-500')}
+            aria-describedby={isNotNil(errors.quotes?.[index]?.text) ? `quote-${index}-text-error` : undefined}
+            aria-invalid={isNotNil(errors.quotes?.[index]?.text)}
           />
-          {errors.quotes?.[index]?.text && <p className="text-red-500">{errors.quotes[index].text.message}</p>}
+          {isNotNil(errors.quotes?.[index]?.text) && (
+            <p
+              id={`quote-${index}-text-error`}
+              className="text-red-500"
+            >
+              {errors.quotes[index].text.message}
+            </p>
+          )}
           <Input
             {...register(`quotes.${index}.page`)}
             type="number"
-            className="w-32"
             placeholder="페이지 번호"
+            className={cn(isNotNil(errors.quotes?.[index]?.page) && 'border-red-500 focus-visible:ring-red-500')}
+            aria-describedby={isNotNil(errors.quotes?.[index]?.page) ? `quote-${index}-page-error` : undefined}
+            aria-invalid={isNotNil(errors.quotes?.[index]?.page)}
           />
-          {errors.quotes?.[index]?.page && <p className="text-red-500">{errors.quotes[index].page.message}</p>}
+          {isNotNil(errors.quotes?.[index]?.page) && (
+            <p
+              id={`quote-${index}-page-error`}
+              className="text-red-500"
+            >
+              {errors.quotes[index].page.message}
+            </p>
+          )}
         </div>
       ))}
       {errors.quotes && <p className="text-red-500">{errors.quotes.message}</p>}
