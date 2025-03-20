@@ -1,14 +1,15 @@
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 import { isNotNil } from 'es-toolkit';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
+import { CommaSeparatedInput } from '@/shared/ui/comma-separated-input';
 import { Label } from '@/shared/ui/label';
 import { Textarea } from '@/shared/ui/textarea';
 import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
 
 export default function QuotesField() {
   const {
+    control,
     register,
     formState: { errors },
   } = useFormContext<BookNoteFormSchema>();
@@ -48,13 +49,18 @@ export default function QuotesField() {
               {errors.quotes[index].text.message}
             </p>
           )}
-          <Input
-            {...register(`quotes.${index}.page`)}
-            type="number"
-            placeholder="페이지 번호"
-            className={cn(isNotNil(errors.quotes?.[index]?.page) && 'border-red-500 focus-visible:ring-red-500')}
-            aria-describedby={isNotNil(errors.quotes?.[index]?.page) ? `quote-${index}-page-error` : undefined}
-            aria-invalid={isNotNil(errors.quotes?.[index]?.page)}
+          <Controller
+            control={control}
+            name={`quotes.${index}.page`}
+            render={({ field }) => (
+              <CommaSeparatedInput
+                {...field}
+                placeholder="페이지 번호"
+                className={cn(isNotNil(errors.quotes?.[index]?.page) && 'border-red-500 focus-visible:ring-red-500')}
+                aria-describedby={isNotNil(errors.quotes?.[index]?.page) ? `quote-${index}-page-error` : undefined}
+                aria-invalid={isNotNil(errors.quotes?.[index]?.page)}
+              />
+            )}
           />
           {isNotNil(errors.quotes?.[index]?.page) && (
             <p
@@ -70,7 +76,7 @@ export default function QuotesField() {
       <Button
         type="button"
         variant="outline"
-        onClick={() => append({ text: '', page: '' })}
+        onClick={() => append({ text: '', page: null })}
       >
         문구 추가
       </Button>
