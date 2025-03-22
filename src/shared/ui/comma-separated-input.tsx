@@ -1,4 +1,5 @@
 import { ChangeEvent, ComponentProps } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 import { isNil } from 'es-toolkit';
 import { Input } from '@/shared/ui/input';
 
@@ -44,4 +45,25 @@ const CommaSeparatedInput = ({
   );
 };
 
-export { CommaSeparatedInput };
+interface RHFCommaSeparatedInputProps extends CommaSeparatedInputProps {
+  name: string;
+}
+
+const RHFCommaSeparatedInput = ({ name, ...props }: RHFCommaSeparatedInputProps) => {
+  const { control } = useFormContext();
+
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <CommaSeparatedInput
+          {...field}
+          {...props}
+        />
+      )}
+    />
+  );
+};
+
+export { CommaSeparatedInput, RHFCommaSeparatedInput };

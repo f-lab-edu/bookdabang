@@ -1,15 +1,14 @@
-import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import { isNotNil } from 'es-toolkit';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
-import { CommaSeparatedInput } from '@/shared/ui/comma-separated-input';
+import { RHFCommaSeparatedInput } from '@/shared/ui/comma-separated-input';
 import { Label } from '@/shared/ui/label';
 import { Textarea } from '@/shared/ui/textarea';
 import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
 
 export default function QuotesField() {
   const {
-    control,
     register,
     formState: { errors },
   } = useFormContext<BookNoteFormSchema>();
@@ -49,18 +48,12 @@ export default function QuotesField() {
               {errors.quotes[index].text.message}
             </p>
           )}
-          <Controller
-            control={control}
+          <RHFCommaSeparatedInput
             name={`quotes.${index}.page`}
-            render={({ field }) => (
-              <CommaSeparatedInput
-                {...field}
-                placeholder="페이지 번호"
-                className={cn(isNotNil(errors.quotes?.[index]?.page) && 'border-red-500 focus-visible:ring-red-500')}
-                aria-describedby={isNotNil(errors.quotes?.[index]?.page) ? `quote-${index}-page-error` : undefined}
-                aria-invalid={isNotNil(errors.quotes?.[index]?.page)}
-              />
-            )}
+            placeholder="페이지 번호"
+            className={cn(isNotNil(errors.quotes?.[index]?.page) && 'border-red-500 focus-visible:ring-red-500')}
+            aria-describedby={isNotNil(errors.quotes?.[index]?.page) ? `quote-${index}-page-error` : undefined}
+            aria-invalid={isNotNil(errors.quotes?.[index]?.page)}
           />
           {isNotNil(errors.quotes?.[index]?.page) && (
             <p
