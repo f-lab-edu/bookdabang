@@ -11,20 +11,13 @@ import { Form } from '@/shared/ui/form';
 import { RenderCase } from '@/shared/ui/render-case';
 import { useBookDetail } from '@/entities/book';
 import { BookNoteFormSchema, createBookNoteFormSchema } from '../../model/book-note-form-schema';
+import { stepFields } from '../../model/step-fields';
 import BookNoteFormActions from './BookNoteFormActions';
 import ReadingInfoStep from './step/ReadingInfoStep';
 import RatingStep from './step/RatingStep';
 import ReviewStep from './step/ReviewStep';
 import QuotesStep from './step/QuotesStep';
 import PublishStep from './step/PublishStep';
-
-const triggerFields = new Map<number, (keyof BookNoteFormSchema)[]>([
-  [1, ['readingInfo']],
-  [2, ['recommended', 'rating']],
-  [3, ['review']],
-  [4, ['quotes']],
-  [5, ['publish']],
-]);
 
 const defaultValues: BookNoteFormSchema = {
   readingInfo: {
@@ -53,7 +46,7 @@ export default function BookNoteForm() {
 
   const onStepChange = useCallback(
     (step: number) => {
-      for (const field of triggerFields.get(step) ?? []) {
+      for (const field of stepFields.get(step) ?? []) {
         const error = form.formState.errors[field];
         if (isNotNil(error)) {
           form.setFocus(field);
@@ -74,7 +67,7 @@ export default function BookNoteForm() {
   };
 
   const onError = (errors: FieldErrors<BookNoteFormSchema>) => {
-    for (const [step, fields] of triggerFields.entries()) {
+    for (const [step, fields] of stepFields.entries()) {
       for (const field of fields) {
         if (isNotNil(errors[field])) {
           funnel.goToStep(step);
