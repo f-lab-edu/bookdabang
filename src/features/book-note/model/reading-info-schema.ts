@@ -1,5 +1,6 @@
 import { isNil, isNotNil } from 'es-toolkit';
 import { z } from 'zod';
+import { requiredNullable } from '@/shared/lib/zod-utils';
 import { ReadingStatus } from './reading-status';
 
 interface ValidationRule {
@@ -52,13 +53,13 @@ const validationRules: Partial<Record<ReadingStatus, Record<'startDate' | 'endDa
 
 export const readingInfoSchema = z
   .object({
-    readingStatus: z.nativeEnum(ReadingStatus, {
-      required_error: '읽기 상태는 필수 값입니다.',
-    }),
-    startDate: z.date().optional(),
-    endDate: z.date().optional(),
+    readingStatus: requiredNullable(z.nativeEnum(ReadingStatus), '읽기 상태는 필수 값입니다.'),
+    startDate: z.date().nullable(),
+    endDate: z.date().nullable(),
   })
   .superRefine((data, ctx) => {
+    if (isNil(data.readingStatus)) return;
+
     const rules = validationRules[data.readingStatus];
     if (isNil(rules)) return;
 

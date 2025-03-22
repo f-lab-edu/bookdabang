@@ -26,6 +26,19 @@ const triggerFields = new Map<number, (keyof BookNoteFormSchema)[]>([
   [5, ['publish']],
 ]);
 
+const defaultValues: BookNoteFormSchema = {
+  readingInfo: {
+    readingStatus: null,
+    startDate: null,
+    endDate: null,
+  },
+  recommended: null,
+  rating: null,
+  review: '',
+  quotes: [],
+  publish: false,
+};
+
 export default function BookNoteForm() {
   const { isbn } = useParams<{ isbn: string }>()!;
 
@@ -35,18 +48,7 @@ export default function BookNoteForm() {
 
   const form = useForm<BookNoteFormSchema>({
     resolver,
-    defaultValues: {
-      readingInfo: {
-        readingStatus: undefined,
-        startDate: undefined,
-        endDate: undefined,
-      },
-      recommended: undefined,
-      rating: undefined,
-      review: '',
-      quotes: [],
-      publish: false,
-    },
+    defaultValues,
   });
 
   const onStepChange = useCallback(
