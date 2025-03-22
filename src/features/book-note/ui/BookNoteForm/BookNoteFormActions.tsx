@@ -2,14 +2,7 @@ import { useFormContext } from 'react-hook-form';
 import { useFunnelContext } from '@/shared/lib/funnel';
 import { Button } from '@/shared/ui/button';
 import { BookNoteFormSchema } from '../../model/book-note-form-schema';
-
-const triggerFields: Record<number, (keyof BookNoteFormSchema)[]> = {
-  1: ['readingInfo'],
-  2: ['recommended', 'rating'],
-  3: ['review'],
-  4: ['quotes'],
-  5: ['publish'],
-};
+import { stepFields } from '../../model/step-fields';
 
 interface BookNoteFormActionsProps {
   previousLabel?: string;
@@ -26,7 +19,7 @@ export default function BookNoteFormActions({
   const { currentStep, isFirstStep, isLastStep, goToPreviousStep, goToNextStep } = useFunnelContext();
 
   const handleNext = async () => {
-    const isValid = await trigger(triggerFields[currentStep], { shouldFocus: true });
+    const isValid = await trigger(stepFields.get(currentStep), { shouldFocus: true });
     if (isValid) goToNextStep();
   };
 

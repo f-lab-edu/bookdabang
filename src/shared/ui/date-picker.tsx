@@ -1,3 +1,4 @@
+import { Ref } from 'react';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { isNil, isNotNil } from 'es-toolkit';
@@ -6,12 +7,11 @@ import { cn } from '@/shared/lib/utils';
 import { Button, ButtonProps } from './button';
 import { Calendar } from './calendar';
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
-import { Ref } from 'react';
 
 interface DatePickerProps extends Omit<ButtonProps, 'value' | 'onChange'> {
   ref?: Ref<HTMLButtonElement>;
   placeholder?: string;
-  value?: Date;
+  value?: Date | null;
   onChange?: (date?: Date) => void;
 }
 
@@ -37,7 +37,7 @@ const DatePicker = ({ ref, className, placeholder = '날짜 선택', value, onCh
         <Calendar
           mode="single"
           initialFocus
-          selected={value}
+          selected={value ?? undefined}
           onSelect={onChange}
         />
       </PopoverContent>
