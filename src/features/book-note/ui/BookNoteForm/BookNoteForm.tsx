@@ -3,9 +3,10 @@
 import { useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { isNotNil } from 'es-toolkit';
-import { FieldErrors, useForm } from 'react-hook-form';
+import { FieldErrors } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { usePersistentForm } from '@/shared/lib/form';
 import { FunnelProvider, useFunnel } from '@/shared/lib/funnel';
 import { Form } from '@/shared/ui/form';
 import { RenderCase } from '@/shared/ui/render-case';
@@ -39,9 +40,11 @@ export default function BookNoteForm() {
 
   const resolver = useMemo(() => zodResolver(createBookNoteFormSchema(book.pageCount)), [book.pageCount]);
 
-  const form = useForm<BookNoteFormSchema>({
+  const form = usePersistentForm<BookNoteFormSchema>({
     resolver,
     defaultValues,
+    storage: 'session',
+    storageKey: `book-note-form-${isbn}`,
   });
 
   const onStepChange = useCallback(
@@ -63,6 +66,7 @@ export default function BookNoteForm() {
   });
 
   const onSubmit = (data: BookNoteFormSchema) => {
+    form.clearPersistentData();
     console.log(data);
   };
 
