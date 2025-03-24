@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import { FieldValues, useForm, UseFormProps, UseFormReturn } from 'react-hook-form';
+import { DefaultValues, FieldValues, useForm, UseFormProps, UseFormReturn } from 'react-hook-form';
 import { isNil } from 'es-toolkit';
+import { parse, stringify } from 'superjson';
 import { isEmpty } from '@/shared/lib/string-utils';
 
 export type PersistentStorage = 'local' | 'session';
@@ -47,7 +48,7 @@ export function usePersistentForm<
 
     if (isNil(saved)) return formProps.defaultValues;
 
-    return JSON.parse(saved);
+    return parse<DefaultValues<TFieldValues>>(saved);
   }, [formProps.defaultValues, isStorageKeyEmpty, storageKey, storageApi]);
 
   const form = useForm<TFieldValues, TContext, TTransformedValues>({
@@ -58,7 +59,7 @@ export function usePersistentForm<
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (isStorageKeyEmpty) return;
-      storageApi?.setItem(storageKey, JSON.stringify(form.getValues()));
+      storageApi?.setItem(storageKey, stringify(form.getValues()));
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
