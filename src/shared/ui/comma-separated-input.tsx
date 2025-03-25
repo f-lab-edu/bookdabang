@@ -1,9 +1,7 @@
-import { ChangeEvent, ComponentProps } from 'react';
+import { ChangeEvent } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { isNil } from 'es-toolkit';
-import { Input } from '@/shared/ui/input';
-
-type InputProps = ComponentProps<typeof Input>;
+import { Input, type InputProps } from './input';
 
 interface CommaSeparatedInputProps extends Omit<InputProps, 'type' | 'value' | 'onChange'> {
   value?: number | null;
