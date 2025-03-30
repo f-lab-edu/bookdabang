@@ -1,7 +1,7 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { Label } from '@/shared/ui/label';
 import { Switch } from '@/shared/ui/switch';
-import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
+import { BookNoteFormSchema } from '../../../model/book-note-form-schema';
 
 export default function PublishField() {
   const { control } = useFormContext<BookNoteFormSchema>();

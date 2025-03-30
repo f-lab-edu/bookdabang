@@ -3,7 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { cn } from '@/shared/lib/utils';
 import { DatePicker } from '@/shared/ui/date-picker';
 import { Label } from '@/shared/ui/label';
-import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
+import { BookNoteFormSchema } from '../../../model/book-note-form-schema';
 
 export default function StartDateField() {
   const {

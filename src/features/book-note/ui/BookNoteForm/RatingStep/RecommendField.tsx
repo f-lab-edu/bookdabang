@@ -4,7 +4,7 @@ import { cn } from '@/shared/lib/utils';
 import { ThumbsUp, ThumbsDown } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { Label } from '@/shared/ui/label';
-import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
+import { BookNoteFormSchema } from '../../../model/book-note-form-schema';
 
 export default function RecommendField() {
   const {

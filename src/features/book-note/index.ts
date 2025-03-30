@@ -1,1 +1,1 @@
-export { default as BookNoteForm } from './ui/BookNoteForm/BookNoteForm';
+export { default as BookNoteForm } from './ui/BookNoteForm';

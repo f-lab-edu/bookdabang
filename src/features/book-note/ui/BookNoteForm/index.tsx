@@ -14,11 +14,11 @@ import { useBookDetail } from '@/entities/book';
 import { BookNoteFormSchema, createBookNoteFormSchema } from '../../model/book-note-form-schema';
 import { stepFields } from '../../model/step-fields';
 import BookNoteFormActions from './BookNoteFormActions';
-import ReadingInfoStep from './step/ReadingInfoStep';
-import RatingStep from './step/RatingStep';
-import ReviewStep from './step/ReviewStep';
-import QuotesStep from './step/QuotesStep';
-import PublishStep from './step/PublishStep';
+import ReadingInfoStep from './ReadingInfoStep';
+import RatingStep from './RatingStep';
+import ReviewStep from './ReviewStep';
+import QuotesStep from './QuotesStep';
+import PublishStep from './PublishStep';
 
 const defaultValues: BookNoteFormSchema = {
   readingInfo: {

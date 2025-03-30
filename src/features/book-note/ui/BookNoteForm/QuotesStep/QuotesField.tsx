@@ -5,7 +5,7 @@ import { Button } from '@/shared/ui/button';
 import { RHFCommaSeparatedInput } from '@/shared/ui/comma-separated-input';
 import { Label } from '@/shared/ui/label';
 import { Textarea } from '@/shared/ui/textarea';
-import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
+import { BookNoteFormSchema } from '../../../model/book-note-form-schema';
 
 export default function QuotesField() {
   const {

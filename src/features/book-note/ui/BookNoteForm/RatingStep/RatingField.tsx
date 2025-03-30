@@ -3,7 +3,7 @@ import { isNotNil } from 'es-toolkit';
 import { cn } from '@/shared/lib/utils';
 import { Label } from '@/shared/ui/label';
 import { StarRating } from '@/shared/ui/star-rating';
-import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
+import { BookNoteFormSchema } from '../../../model/book-note-form-schema';
 
 export default function RatingField() {
   const {
