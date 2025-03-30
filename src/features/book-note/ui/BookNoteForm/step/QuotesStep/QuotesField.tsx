@@ -2,7 +2,7 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { isNotNil } from 'es-toolkit';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
+import { RHFCommaSeparatedInput } from '@/shared/ui/comma-separated-input';
 import { Label } from '@/shared/ui/label';
 import { Textarea } from '@/shared/ui/textarea';
 import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
@@ -48,9 +48,8 @@ export default function QuotesField() {
               {errors.quotes[index].text.message}
             </p>
           )}
-          <Input
-            {...register(`quotes.${index}.page`)}
-            type="number"
+          <RHFCommaSeparatedInput
+            name={`quotes.${index}.page`}
             placeholder="페이지 번호"
             className={cn(isNotNil(errors.quotes?.[index]?.page) && 'border-red-500 focus-visible:ring-red-500')}
             aria-describedby={isNotNil(errors.quotes?.[index]?.page) ? `quote-${index}-page-error` : undefined}
@@ -70,7 +69,7 @@ export default function QuotesField() {
       <Button
         type="button"
         variant="outline"
-        onClick={() => append({ text: '', page: '' })}
+        onClick={() => append({ text: '', page: null })}
       >
         문구 추가
       </Button>
