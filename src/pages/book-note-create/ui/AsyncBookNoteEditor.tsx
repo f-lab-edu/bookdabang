@@ -1,12 +1,12 @@
 'use client';
 
 import { QueryBoundary } from '@/shared/ui/query-boundary';
-import { BookNoteForm } from '@/features/book-note';
+import { BookNoteEditor } from '@/widgets/book-note';
 
-export default function AsyncBookNoteForm() {
+export default function AsyncBookNoteEditor() {
   return (
     <QueryBoundary>
-      <BookNoteForm />
+      <BookNoteEditor />
     </QueryBoundary>
   );
 }
