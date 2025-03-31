@@ -2,7 +2,7 @@
 
 import { format } from 'date-fns';
 import { UseFormReturn } from 'react-hook-form';
-import { Quote, Calendar, Lock, Unlock } from 'lucide-react';
+import { Calendar, Lock, Unlock } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
 import { Badge } from '@/shared/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
@@ -12,6 +12,7 @@ import { useBookNotePreview } from '../../model/use-book-note-preview';
 import RecommendPreview from './RecommendPreview';
 import RatingPreview from './RatingPreview';
 import ReviewPreview from './ReviewPreview';
+import QuotesPreview from './QuotesPreview';
 
 interface BookNotePreviewProps {
   book: BookDetail;
@@ -37,29 +38,7 @@ export default function BookNotePreview({ book, form, className }: BookNotePrevi
           </div>
         </div>
         <ReviewPreview review={previewData.review} />
-        {previewData.quotes.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Quote className="mr-2 size-5" />
-                기억에 남는 문구
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {previewData.quotes.map((quote, index) => (
-                  <div
-                    key={index}
-                    className="border-l-2 border-primary pl-4"
-                  >
-                    <blockquote className="italic">{quote.text}</blockquote>
-                    {quote.page && <p className="mt-1 text-sm text-muted-foreground">Page {quote.page}</p>}
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
+        <QuotesPreview quotes={previewData.quotes} />
         <div className="mt-4 flex items-center justify-between">
           <div className="flex items-center">
             <Calendar className="mr-1 size-4" />
