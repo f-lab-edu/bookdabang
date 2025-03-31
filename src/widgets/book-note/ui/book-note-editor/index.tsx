@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePersistentForm } from '@/shared/lib/form';
+import { useMediaQuery } from '@/shared/lib/media-query';
 import { useBookDetail } from '@/entities/book';
 import { BookNoteForm, BookNoteFormSchema, BookNotePreview, createBookNoteFormSchema } from '@/features/book-note';
 
@@ -34,17 +35,21 @@ export default function BookNoteEditor() {
     storageKey: `book-note-form-${isbn}`,
   });
 
+  const isWideScreen = useMediaQuery({ minWidth: 1440 });
+
   return (
     <>
       <BookNoteForm
         book={book}
         form={form}
       />
-      <BookNotePreview
-        book={book}
-        form={form}
-        className="fixed right-4 top-4 h-fit"
-      />
+      {isWideScreen && (
+        <BookNotePreview
+          book={book}
+          form={form}
+          className="fixed right-4 top-4 h-fit"
+        />
+      )}
     </>
   );
 }
