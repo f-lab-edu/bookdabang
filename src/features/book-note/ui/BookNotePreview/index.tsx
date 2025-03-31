@@ -2,8 +2,7 @@
 
 import { format } from 'date-fns';
 import { UseFormReturn } from 'react-hook-form';
-import { isNotNil } from 'es-toolkit';
-import { Star, Quote, Calendar, Lock, Unlock } from 'lucide-react';
+import { Quote, Calendar, Lock, Unlock } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
 import { Badge } from '@/shared/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
@@ -11,6 +10,7 @@ import { BookDetail } from '@/entities/book';
 import { BookNoteFormSchema } from '../../model/book-note-form-schema';
 import { useBookNotePreview } from '../../model/use-book-note-preview';
 import RecommendPreview from './RecommendPreview';
+import RatingPreview from './RatingPreview';
 
 interface BookNotePreviewProps {
   book: BookDetail;
@@ -32,24 +32,7 @@ export default function BookNotePreview({ book, form, className }: BookNotePrevi
           <p className="text-sm text-muted-foreground">by {book.author}</p>
           <div className="mt-4 flex flex-wrap items-center gap-2">
             <RecommendPreview recommended={previewData.recommended} />
-            {isNotNil(previewData.rating) && (
-              <div className="ml-4 flex items-center">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
-                    className={cn(
-                      'h-5 w-5',
-                      star <= previewData.rating!
-                        ? 'fill-yellow-400 text-yellow-400'
-                        : star - 0.5 <= previewData.rating!
-                          ? 'half-filled fill-yellow-400 text-yellow-400'
-                          : 'text-gray-300',
-                    )}
-                  />
-                ))}
-                <span className="ml-1">{previewData.rating}</span>
-              </div>
-            )}
+            <RatingPreview rating={previewData.rating} />
           </div>
         </div>
         {previewData.review && (
