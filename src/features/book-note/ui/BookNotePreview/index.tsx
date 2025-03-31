@@ -11,6 +11,7 @@ import { BookNoteFormSchema } from '../../model/book-note-form-schema';
 import { useBookNotePreview } from '../../model/use-book-note-preview';
 import RecommendPreview from './RecommendPreview';
 import RatingPreview from './RatingPreview';
+import ReviewPreview from './ReviewPreview';
 
 interface BookNotePreviewProps {
   book: BookDetail;
@@ -35,20 +36,7 @@ export default function BookNotePreview({ book, form, className }: BookNotePrevi
             <RatingPreview rating={previewData.rating} />
           </div>
         </div>
-        {previewData.review && (
-          <Card>
-            <CardHeader>
-              <CardTitle>독후감</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="break-words">
-                {previewData.review
-                  .split('\n')
-                  .map((paragraph, idx) => (paragraph ? <p key={idx}>{paragraph}</p> : <br key={idx} />))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
+        <ReviewPreview review={previewData.review} />
         {previewData.quotes.length > 0 && (
           <Card>
             <CardHeader>
