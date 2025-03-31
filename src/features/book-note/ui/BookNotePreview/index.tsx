@@ -1,16 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { UseFormReturn } from 'react-hook-form';
 import { isNotNil } from 'es-toolkit';
 import { Star, ThumbsUp, ThumbsDown, Quote, Calendar, Lock, Unlock } from 'lucide-react';
-import { useThrottle } from '@toss/react';
 import { cn } from '@/shared/lib/utils';
 import { Badge } from '@/shared/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { BookDetail } from '@/entities/book';
 import { BookNoteFormSchema } from '../../model/book-note-form-schema';
+import { useBookNotePreview } from '../../model/use-book-note-preview';
 
 interface BookNotePreviewProps {
   book: BookDetail;
@@ -18,19 +17,8 @@ interface BookNotePreviewProps {
   className?: string;
 }
 
-const THROTTLE_DELAY_MS = 500;
-
-export default function BookNotePreview({ book, form: { getValues, watch }, className }: BookNotePreviewProps) {
-  const [previewData, setPreviewData] = useState<BookNoteFormSchema>(getValues());
-
-  const updatePreviewDataWithDelay = useThrottle((value: BookNoteFormSchema) => {
-    setPreviewData(value);
-  }, THROTTLE_DELAY_MS);
-
-  useEffect(() => {
-    const { unsubscribe } = watch(updatePreviewDataWithDelay);
-    return () => unsubscribe();
-  }, [watch, updatePreviewDataWithDelay]);
+export default function BookNotePreview({ book, form, className }: BookNotePreviewProps) {
+  const previewData = useBookNotePreview(form);
 
   return (
     <Card className={cn('w-[360px] shadow-lg', className)}>
