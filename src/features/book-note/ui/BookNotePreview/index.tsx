@@ -1,8 +1,7 @@
 'use client';
 
-import { format } from 'date-fns';
 import { UseFormReturn } from 'react-hook-form';
-import { Calendar, Lock, Unlock } from 'lucide-react';
+import { Lock, Unlock } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
 import { Badge } from '@/shared/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
@@ -13,6 +12,7 @@ import RecommendPreview from './RecommendPreview';
 import RatingPreview from './RatingPreview';
 import ReviewPreview from './ReviewPreview';
 import QuotesPreview from './QuotesPreview';
+import ReadingInfoPreview from './ReadingInfoPreview';
 
 interface BookNotePreviewProps {
   book: BookDetail;
@@ -40,21 +40,7 @@ export default function BookNotePreview({ book, form, className }: BookNotePrevi
         <ReviewPreview review={previewData.review} />
         <QuotesPreview quotes={previewData.quotes} />
         <div className="mt-4 flex items-center justify-between">
-          <div className="flex items-center">
-            <Calendar className="mr-1 size-4" />
-            {previewData.readingInfo.startDate && previewData.readingInfo.endDate ? (
-              <span className="text-sm text-muted-foreground">
-                {format(new Date(previewData.readingInfo.startDate), 'MMM d, yyyy')} -{' '}
-                {format(new Date(previewData.readingInfo.endDate), 'MMM d, yyyy')}
-              </span>
-            ) : previewData.readingInfo.startDate ? (
-              <span className="text-sm text-muted-foreground">
-                Started on {format(new Date(previewData.readingInfo.startDate), 'MMM d, yyyy')}
-              </span>
-            ) : (
-              <span className="text-sm text-muted-foreground">읽은 날짜가 없습니다.</span>
-            )}
-          </div>
+          <ReadingInfoPreview readingInfo={previewData.readingInfo} />
           <div className="flex items-center">
             {previewData.publish ? (
               <Badge
