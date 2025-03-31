@@ -1,9 +1,7 @@
 'use client';
 
 import { UseFormReturn } from 'react-hook-form';
-import { Lock, Unlock } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
-import { Badge } from '@/shared/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { BookDetail } from '@/entities/book';
 import { BookNoteFormSchema } from '../../model/book-note-form-schema';
@@ -13,6 +11,7 @@ import RatingPreview from './RatingPreview';
 import ReviewPreview from './ReviewPreview';
 import QuotesPreview from './QuotesPreview';
 import ReadingInfoPreview from './ReadingInfoPreview';
+import PublishPreview from './PublishPreview';
 
 interface BookNotePreviewProps {
   book: BookDetail;
@@ -41,25 +40,7 @@ export default function BookNotePreview({ book, form, className }: BookNotePrevi
         <QuotesPreview quotes={previewData.quotes} />
         <div className="mt-4 flex items-center justify-between">
           <ReadingInfoPreview readingInfo={previewData.readingInfo} />
-          <div className="flex items-center">
-            {previewData.publish ? (
-              <Badge
-                variant="outline"
-                className="flex items-center gap-1"
-              >
-                <Unlock className="size-3" />
-                공개
-              </Badge>
-            ) : (
-              <Badge
-                variant="outline"
-                className="flex items-center gap-1"
-              >
-                <Lock className="size-3" />
-                비공개
-              </Badge>
-            )}
-          </div>
+          <PublishPreview publish={previewData.publish} />
         </div>
       </CardContent>
     </Card>
