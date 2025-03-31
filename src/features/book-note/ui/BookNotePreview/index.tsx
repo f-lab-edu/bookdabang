@@ -3,13 +3,14 @@
 import { format } from 'date-fns';
 import { UseFormReturn } from 'react-hook-form';
 import { isNotNil } from 'es-toolkit';
-import { Star, ThumbsUp, ThumbsDown, Quote, Calendar, Lock, Unlock } from 'lucide-react';
+import { Star, Quote, Calendar, Lock, Unlock } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
 import { Badge } from '@/shared/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { BookDetail } from '@/entities/book';
 import { BookNoteFormSchema } from '../../model/book-note-form-schema';
 import { useBookNotePreview } from '../../model/use-book-note-preview';
+import RecommendPreview from './RecommendPreview';
 
 interface BookNotePreviewProps {
   book: BookDetail;
@@ -30,18 +31,7 @@ export default function BookNotePreview({ book, form, className }: BookNotePrevi
           <h1 className="text-base font-bold">{book.title}</h1>
           <p className="text-sm text-muted-foreground">by {book.author}</p>
           <div className="mt-4 flex flex-wrap items-center gap-2">
-            {previewData.recommended === true && (
-              <div className="flex items-center text-green-600">
-                <ThumbsUp className="mr-1 size-5" />
-                <span>추천</span>
-              </div>
-            )}
-            {previewData.recommended === false && (
-              <div className="flex items-center text-red-600">
-                <ThumbsDown className="mr-1 size-5" />
-                <span>비추천</span>
-              </div>
-            )}
+            <RecommendPreview recommended={previewData.recommended} />
             {isNotNil(previewData.rating) && (
               <div className="ml-4 flex items-center">
                 {[1, 2, 3, 4, 5].map((star) => (
