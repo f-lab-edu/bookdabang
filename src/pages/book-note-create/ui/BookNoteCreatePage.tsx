@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getQueryClient } from '@/shared/api/query-client';
 import { bookQueries } from '@/entities/book';
-import AsyncBookNoteForm from './AsyncBookNoteForm';
+import AsyncBookNoteEditor from './AsyncBookNoteEditor';
 
 type Params = Promise<{
   isbn: string;
@@ -15,7 +15,7 @@ export default async function BookNoteCreatePage(props: { params: Params }) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AsyncBookNoteForm />
+      <AsyncBookNoteEditor />
     </HydrationBoundary>
   );
 }

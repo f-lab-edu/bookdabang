@@ -3,8 +3,8 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { cn } from '@/shared/lib/utils';
 import { Label } from '@/shared/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
-import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
-import { ReadingStatus } from '../../../../model/reading-status';
+import { BookNoteFormSchema } from '../../../model/book-note-form-schema';
+import { ReadingStatus } from '../../../model/reading-status';
 
 const readingStatusLabels = {
   [ReadingStatus.WANT_TO_READ]: '읽고 싶어요',

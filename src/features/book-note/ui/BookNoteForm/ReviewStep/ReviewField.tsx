@@ -2,7 +2,7 @@ import { isNotNil } from 'es-toolkit';
 import { useFormContext } from 'react-hook-form';
 import { cn } from '@/shared/lib/utils';
 import { Textarea } from '@/shared/ui/textarea';
-import { BookNoteFormSchema } from '../../../../model/book-note-form-schema';
+import { BookNoteFormSchema } from '../../../model/book-note-form-schema';
 
 export default function ReviewField() {
   const {
